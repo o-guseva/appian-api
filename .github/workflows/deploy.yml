@@ -19,7 +19,7 @@ jobs:
     - name: Upload package to CALI DEV
       id: upload
       run: |
-        response$(curl -s -X POST "https://cali-dev.iem-digital.com/suite/deployment-management/v2/deployments" \
+        response$(curl -s -X POST "https://cali-dev.iem-digital.com/suite/deployment-management/v2/packages/import" \
         -H "Appian-API-Key: ${{  secrets.APPIAN_API_KEY }}" \
         -F "file=@appian-file.zip") 
 
