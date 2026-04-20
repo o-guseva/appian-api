@@ -14,9 +14,6 @@ jobs:
       run: |
         curl -X POST "https://cali-dev.iem-digital.com/suite/deployment-management/v2/deployments" \
         -H "Appian-API-Key: ${{  secrets.APPIAN_API_KEY }}" \
-        -H "Content-Type: application/json" \
-        -d '{
-          "name": "Auto Deploy",
-          "targetEnvironment": "Appian"
-        }'
+        -F "name": "Auto Deploy"\
+        -F "targetEnvironment=Appian"
 
