@@ -1,4 +1,4 @@
-name: Deploy to CALI DEV
+name: Deploy from CALI DEV -> CALI
 
 on:
   push:
@@ -10,33 +10,13 @@ jobs:
     runs-on: ubuntu-latest
     
     steps:
-    - name: Checkout
-      uses: actions/checkout@v3
-
-    - name: Install jq
-      run: sudo apt-get update && sudo apt-get install -y jq
-      
-    - name: Upload package to CALI DEV
-      id: upload
+    - name: Trigger Appian Deployment
       run: |
-        response=$(curl -X POST "https://cali-dev.iem-digital.com/suite/deployment-management/v2/deployments" \
-        -H "Appian-API-Key: ${{  secrets.APPIAN_API_KEY }}" \
-        -H "Accept: application/json" \
-        -F "file=@appian-file.zip;type=application/zip") 
-
-        echo "Response: $response"
-
-        packageId=$(echo "$response" | jq -r '.id' )
-        
-        echo "packageId=$packageId" >> $GITHUB_OUTPUT
-        
-    - name: Create deployment
-      run: |
-        curl -s -X POST "https://cali-dev.iem-digital.com/suite/deployment-management/v2/deployments \
+        curl -X POST "https://cali-dev.iem-digital.com/suite/deployment-management/v2/deployments" \
         -H "Appian-API-Key: ${{  secrets.APPIAN_API_KEY }}" \
         -H "Content-Type: application/json" \
         -d '{
           "name": "Auto Deploy",
-          "packageId": "${{ steps.upload.outputs.packageId }}"
+          "targetEnvironment": "Appian"
         }'
-      
+
