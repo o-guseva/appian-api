@@ -19,5 +19,5 @@ jobs:
         -H "Authorization: Bearer ${{  secrets.APPIAN_API_KEY }}" \
         -H "Content-Type: multipart/from-data" \
         -F "appPackage=@appian-file.zip"
-"
+
 
