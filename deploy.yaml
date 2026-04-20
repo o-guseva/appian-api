@@ -4,20 +4,35 @@ on:
   push:
     branches:
     - main
+    
 jobs:
   deploy:
     runs-on: ubuntu-latest
+    
     steps:
     - name: Checkout
       uses: actions/checkout@v3
 
-    - name: Deploy package to CALI DEV
+    - name: Upload package to CALI DEV
+      id: upload
       run: |
-        curl -s -X POST "cali-dev.iem-digital.com/suite/deployment-management/v2/deployments" \
+        response$(curl -s -X POST "https://cali-dev.iem-digital.com/suite/deployment-management/v2/deployments" \
+        -H "Appian-API-Key: ${{  secrets.APPIAN_API_KEY }}" \
+        -F "file=@appian-file.zip") 
+
+        echo "Response: $response"
+
+        packageId=$(echo $response | jq -r '.id' )
+        
+        echo "packageId=$packageId" >> $GITHUB_OUTPUT
+        
+    - name: Create deployment
+      run: |
+        curl -s -X POST "https://cali-dev.iem-digital.com/suite/deployment-management/v2/deployments \
         -H "Appian-API-Key: ${{  secrets.APPIAN_API_KEY }}" \
         -H "Content-Type: application/json" \
         -d '{
           "name": "Auto Deploy",
-          "packageId": "REPLACE_PACKAGE_ID"
+          "packageId": "${{ steps.upload.outputs.packageId }}"
         }'
       
