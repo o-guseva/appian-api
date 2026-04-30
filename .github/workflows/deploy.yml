@@ -19,7 +19,7 @@ jobs:
       run: |
         curl -X POST "https://cali-dev.iem-digital.com/suite/deployment-management/v2/deployments" \
         -H "Appian-API-Key: ${{  secrets.APPIAN_API_KEY }}" \
-        -F "zipFile=@appian-file.zip" \
+        -F "file=@appian-file.zip" \
         -F "name=Auto-Deployment"
 
 
