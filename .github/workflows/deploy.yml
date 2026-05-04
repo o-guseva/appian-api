@@ -13,13 +13,22 @@ jobs:
     - name: Checkout Code
       uses: actions/checkout@v3
     - name: Debug file
-      run: ls -la 
-      
-    - name: Checkout
+      run: ls -la
+
+    - name: Create test file
       run: |
-        curl -X POST "https://cali-dev.iem-digital.com/suite/deployment-management/v2/deployments" \
-        -H "Appian-API-Key: ${{  secrets.APPIAN_API_KEY }}" \
-        -F "packageFileName=@hello.txt" \
-        -F "name=Auto-Deployment"
+        echo "hello Appian from GitHub" > test2.txt
+        ls -la
+    - name: Upload file to CALI-DEV
+      id: token
+      run: |
+        RESPONSE=$(curl -v -X POST "${{ secrets.APP_URL }}/suite/rest/a/deployment/latest/packages" \
+          -H "Appian-API-Key: ${{  secrets.APPIAN_API_KEY }}" \
+          -F "file=@test2.txt")
+
+        echo "UPLOAD RESPONSE:"
+        echo "$RESPONSE"
+      
+
 
 
