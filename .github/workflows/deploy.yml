@@ -24,7 +24,7 @@ jobs:
       env:
         APPIAN_API_KEY: ${{ secrets.APPIAN_API_KEY }}
       run: |
-        echo "API KEY LENGTH=${#APPIAN_API_KEY}
+        echo "API KEY LENGTH=${#APPIAN_API_KEY}"
         
     - name: Upload file to CALI-DEV
       id: token
