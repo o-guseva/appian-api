@@ -21,11 +21,10 @@ jobs:
         ls -la
         
     - name: Debug API key length
-      run: |
-        echo "API KEY LENGTH:"
-        echo ${#APPIAN_API_KEY}
       env:
         APPIAN_API_KEY: ${{ secrets.APPIAN_KEY_API }}
+      run: |
+        echo "API KEY LENGTH: ${#APPIAN_KEY_API}
         
     - name: Upload file to CALI-DEV
       id: token
