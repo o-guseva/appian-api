@@ -19,6 +19,11 @@ jobs:
       run: |
         echo "hello Appian from GitHub" > test2.txt
         ls -la
+    - name: Debug API key length
+      run: echo "API KEY LENGTH: ${#APPIAN_API_KEY}"
+      env:
+        APPIAN_API_KEY: ${{ secrets.APPIAN_KEY_API }}
+        
     - name: Upload file to CALI-DEV
       id: token
       run: |
