@@ -15,10 +15,8 @@ jobs:
     - name: Debug file
       run: ls -la
 
-    - name: Create test file
+    - name: Verify package exists
       run: |
-        echo "hello Appian from GitHub" > RealAppianPackage.zip
-     
         ls -la
         
     - name: Debug API key length
