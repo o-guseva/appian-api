@@ -30,8 +30,8 @@ jobs:
       run: |
         RESPONSE=$(curl -v -X POST "${{ secrets.APP_URL }}/suite/deployment-management/v2/deployments" \
           -H "Appian-API-Key: ${{  secrets.APPIAN_API_KEY }}" \
-          -F 'json={"name":"Test Deployment","packageFileName":"RealAppianPackage.zip"};type=application/json' \
-          -F "file=@RealAppianPackage.zip")
+          -F 'json={"name":"Test Deployment","packageFileName":"testApp2.zip"};type=application/json' \
+          -F "file=@testApp2.zip")
 
         echo "UPLOAD RESPONSE:"
         echo "$RESPONSE"
