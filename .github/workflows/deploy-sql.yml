@@ -18,12 +18,17 @@ jobs:
         run: |
           sudo apt-get update
           sudo apt-get install -y mysql-client
-      - name: Execute SQL Script
+      - name: Debug DB Connection 
         run: |
-          mysql \ 
-            -h ${{ secrets.DB_HOST }} \
-            -P ${{ secrets.DB_PORT }} \
-            -u ${{ secrets.DB_USER }} \
-            -p"${{ secrets.DB_PASSWORD }}" \
-            ${{ secrets.DB_NAME }}
-            < IEM_ICO_Primary.sql
+          echo "HOST=${{ secrets.DB_HOST }}"
+          echo "PORT=${{ secrets.DB_PORT }}"
+          echo "USER=${{ secrets.DB_USER }}"
+          echo "DB=${{ secrets.DB_NAME }}"
+
+          mysql \
+            --host="${{ secrets.DB_HOST }}" \
+            --port="${{ secrets.DB_PORT }}" \
+            --user="USER=${{ secrets.DB_USER }}" \
+            --password="${{ secrets.DB_PASSWORD }" \
+            --database="${{ secrets.DB_NAME }}" \
+            -e "SHOW DATABASES;"
