@@ -31,4 +31,5 @@ jobs:
             --user="${{ secrets.DB_USER }}" \
             --password="${{ secrets.DB_PASSWORD }}" \
             --database="${{ secrets.DB_NAME }}" \
-            -e "SHOW DATABASES;"
+            < IEM_ICO_Primary.sql
+           
