@@ -48,8 +48,8 @@ jobs:
               "name":"IEM ICO Deployment",
               "packageFileName":"IEM Core Objects - IEM ICO Full Application - 2026-05-21_0959.zip",
               "customizationFileName":"IEM_ICO.properties",
-              "databaseScripts.fileName":"IEM_ICO_Primary.sq",
-              "databaseScripts.orderId":"1"
+              "databaseScript.fileName":"IEM_ICO_Primary.sq",
+              "databaseScript.orderId":"1"
              
             };type=application/json' \
             -F "file=@IEM Core Objects - IEM ICO Full Application - 2026-05-21_0959.zip" \
