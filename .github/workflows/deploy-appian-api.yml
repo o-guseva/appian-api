@@ -57,7 +57,7 @@ jobs:
             };type=application/json' \
             -F "file=@IEM Core Objects - IEM ICO Full Application - 2026-05-21_0959.zip" \
             -F "file=@IEM_ICO.properties" \
-            -F "databaseScript=@IEM_ICO_Primary.sql")
+            -F "file=@IEM_ICO_Primary.sql")
             
           echo "UPLOAD RESPONSE:"
           echo "$RESPONSE"
