@@ -24,6 +24,6 @@ jobs:
             -h ${{ secrets.DB_HOST }} \
             -P ${{ secrets.DB_PORT }} \
             -u ${{ secrets.DB_USER }} \
-            -p${{ secrets.DB_PASSWORD }} \
+            -p"${{ secrets.DB_PASSWORD }}" \
             ${{ secrets.DB_NAME }}
             < IEM_ICO_Primary.sql
