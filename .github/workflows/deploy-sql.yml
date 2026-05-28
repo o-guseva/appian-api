@@ -29,6 +29,6 @@ jobs:
             --host="${{ secrets.DB_HOST }}" \
             --port="${{ secrets.DB_PORT }}" \
             --user="USER=${{ secrets.DB_USER }}" \
-            --password="${{ secrets.DB_PASSWORD }" \
+            --password="${{ secrets.DB_PASSWORD }}" \
             --database="${{ secrets.DB_NAME }}" \
             -e "SHOW DATABASES;"
