@@ -17,7 +17,7 @@ jobs:
       - name: Install MySQL Client
         run: |
           sudo apt-get update
-          suod apt-get install -y mysql-client
+          sudo apt-get install -y mysql-client
       - name: Execute SQL Script
         run: |
           mysql \ 
