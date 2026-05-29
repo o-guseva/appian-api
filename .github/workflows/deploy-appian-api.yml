@@ -50,7 +50,7 @@ jobs:
               "customizationFileName":"IEM_ICO.properties",
               "databaseScripts":[
                 {
-                "dataSource":"jdbc/Appian",
+                "dataSource":"Appian",
                 "fileName":"IEM_ICO_Primary.sql"
               }
              ]
