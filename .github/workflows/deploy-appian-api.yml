@@ -13,6 +13,7 @@ jobs:
 
       - name: Verify Files
         run: |
+          echo "=====FILES======="
           ls -la
       - name: Debug Files
         run: |
