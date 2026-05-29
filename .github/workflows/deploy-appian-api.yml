@@ -51,8 +51,7 @@ jobs:
               "databaseScripts":[
                 {
                 "dataSource":"jdbc/Appian",
-                "fileName":"IEM_ICO_Primary.sq",
-                "orderId":1
+                "fileName":"IEM_ICO_Primary.sq"
               }
              ]
             };type=application/json' \
