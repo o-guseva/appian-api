@@ -13,7 +13,6 @@ jobs:
 
       - name: Verify Files
         run: |
-          echo "=====FILES======="
           ls -la
       - name: Debug Files
         run: |
@@ -51,7 +50,6 @@ jobs:
               "customizationFileName":"IEM_ICO.properties",
               "databaseScripts":[
                 {
-                "dataSource":"jdbc/Appian",
                 "fileName":"IEM_ICO_Primary.sq"
               }
              ]
