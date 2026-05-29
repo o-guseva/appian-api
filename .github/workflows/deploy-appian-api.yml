@@ -50,7 +50,7 @@ jobs:
               "customizationFileName":"IEM_ICO.properties",
               "databaseScripts":[
                 {
-                "fileName":"IEM_ICO_Primary.sq"
+                "fileName":"IEM_ICO_Primary.sql"
               }
              ]
             };type=application/json' \
