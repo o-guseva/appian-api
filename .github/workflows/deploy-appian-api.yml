@@ -48,9 +48,9 @@ jobs:
               "name":"IEM ICO Deployment",
               "packageFileName":"IEM Core Objects - IEM ICO Full Application - 2026-05-21_0959.zip",
               "customizationFileName":"IEM_ICO.properties",
-              "dataSource":"Appian",
               "databaseScripts":[
                 {
+                "dataSource":"jdbc/Appian",
                 "fileName":"IEM_ICO_Primary.sq",
                 "orderId":1
               }
