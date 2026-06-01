@@ -19,7 +19,7 @@ jobs:
         run: |
           PACKAGE_FILE=$(find . -maxdepth 1 -name "*.zip" | head -n 1 | sed 's|^\./||')
           PROPERTIES_FILES=$(find . -maxdepth 1 -name "*.properties" | head -n 1 | sed 's|^\./||')
-          SQL_FILE=$(find . -maxdepth 1 -name "*.sql" | head -n 1 | sed 's|^\./||'))
+          SQL_FILE=$(find . -maxdepth 1 -name "*.sql" | head -n 1 | sed 's|^\./||')
 
           echo "PACKAGE_FILE=$PACKAGE_FILE" >> $GITHUB_ENV
           echo "PROPERTIES_FILES=$PROPERTIES_FILES" >> $GITHUB_ENV
