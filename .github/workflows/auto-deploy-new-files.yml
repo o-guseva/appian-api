@@ -32,7 +32,7 @@ jobs:
 
       - name: Upload Deployment Package
         run: |
-          RESPONSE=$(curl -s -X POST "${{ secrets.APP_URL }}/suite/deployment-management/v2/deployments") \
+          RESPONSE=$(curl -s -X POST "${{ secrets.APP_URL }}/suite/deployment-management/v2/deployments" \
           -H "Appian-API-Key: ${{ secrets.APPIAN_API_KEY }}" \
           -F 'json={
             "name":"GitHub Deployment",
@@ -48,7 +48,8 @@ jobs:
             };type=application/json' \
             -F "file=@IEM Core Objects - IEM ICO Full Application - 2026-05-21_0959.zip" \
             -F "file=@IEM_ICO.properties" \
-            -F "file=@IEM_ICO_Primary.sql")
+            -F "file=@IEM_ICO_Primary.sql"
+            )
                                   
           echo "UPLOAD RESPONSE:"
           echo "$RESPONSE"
