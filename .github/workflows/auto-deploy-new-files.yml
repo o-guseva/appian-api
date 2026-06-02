@@ -62,14 +62,14 @@ jobs:
           EOF
           )
           echo "============= JSON BODY =================="
-          echo "JSON_BODY"
+          echo "$JSON_BODY"
           
           RESPONSE=$(curl -s -X POST "${{ secrets.APP_URL }}/suite/deployment-management/v2/deployments" \
             -H "Appian-API-Key: ${{ secrets.APPIAN_API_KEY }}" \
             -F "json=$JSON_BODY;type=application/json" \
-            -F "file=@IEM Core Objects - IEM ICO Full Application - 2026-05-21_0959.zip" \
-            -F "file=@IEM_ICO.properties" \
-            -F "file=@IEM_ICO_Primary.sql"
+            -F "file=@PACKAGE_FILE" \
+            -F "file=@PROPERTIES_FILES" \
+            -F "file=@SQL_FILE"
             )
                                   
           echo "UPLOAD RESPONSE:"
