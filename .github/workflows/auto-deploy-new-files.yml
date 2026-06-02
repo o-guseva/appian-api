@@ -37,7 +37,7 @@ jobs:
           -F 'json={
             "name":"GitHub Deployment",
             "packageFileName":"'"$PACKAGE_FILE"'",
-            "customizationFileName":"'"$PROPERTIES_FILE"'",
+            "customizationFileName":"'"$PROPERTIES_FILES"'",
             "dataSource":"jdbc/Appian",
             "databaseScripts":[
               {
