@@ -54,7 +54,7 @@ jobs:
             "dataSource":"jdbc/Appian",
             "databaseScripts":[
               {
-                "fileName":"SQL_FILE",
+                "fileName":"$SQL_FILE",
                 "orderId":1
               }
              ]
