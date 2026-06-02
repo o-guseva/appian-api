@@ -49,12 +49,12 @@ jobs:
           JSON_BODY=$(cat <<EOF
           {
             "name":"GitHub Deployment",
-            "packageFileName":"'"$PACKAGE_FILE"'",
-            "customizationFileName":"'"$PROPERTIES_FILES"'",
+            "packageFileName":"$PACKAGE_FILE",
+            "customizationFileName":"$PROPERTIES_FILES",
             "dataSource":"jdbc/Appian",
             "databaseScripts":[
               {
-                "fileName":"'"SQL_FILE"'",
+                "fileName":"SQL_FILE",
                 "orderId":1
               }
              ]
