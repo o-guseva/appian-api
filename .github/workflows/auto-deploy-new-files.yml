@@ -21,6 +21,16 @@ jobs:
           PROPERTIES_FILES=$(find . -maxdepth 1 -name "*.properties" | head -n 1 | sed 's|^\./||')
           SQL_FILE=$(find . -maxdepth 1 -name "*.sql" | head -n 1 | sed 's|^\./||')
 
+          echo "ALL ZIP FILES:"
+          find . -maxdepth 1 -name "*.zip"
+          
+          echo "ALL PROPERTIES FILES:"
+          find . -maxdepth 1 -name "*.properties"
+
+          echo "ALL SQL FILES:"
+          find . -maxdepth 1 -name "*.sql"
+          
+          
           echo "PACKAGE_FILE=$PACKAGE_FILE" >> $GITHUB_ENV
           echo "PROPERTIES_FILES=$PROPERTIES_FILES" >> $GITHUB_ENV
           echo "SQL_FILE=$SQL_FILE" >> $GITHUB_ENV
