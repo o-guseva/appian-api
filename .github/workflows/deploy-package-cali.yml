@@ -2,6 +2,10 @@ name: Deploy Appian Package CALI (PROD)
 
 on: 
   workflow_dispatch:
+  
+  push:
+    branches:
+      - main 
 
 jobs:
   deploy-appian:
