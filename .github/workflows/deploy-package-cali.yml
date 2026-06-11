@@ -1,0 +1,65 @@
+name: Deploy Appian Package API
+
+on: 
+  workflow_dispatch:
+
+jobs:
+  deploy-appian:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Code 
+        uses: actions/checkout@v3 
+
+      - name: Verify Files
+        run: |
+          ls -la
+      - name: Debug Files
+        run: |
+          echo "Checking files..."
+
+          if [ -f "IEM Core Objects - IEM ICO Full Application - 2026-05-21_0959.zip" ]; then
+            echo "Found IEM Core Objects - IEM ICO Full Application - 2026-05-21_0959.zip"
+          else
+            echo "Missing IEM Core Objects - IEM ICO Full Application - 2026-05-21_0959.zip"
+            exit 1
+          fi
+          
+          if [ -f "IEM_ICO.properties" ]; then
+            echo "Found IEM_ICO.properties"
+          else
+            echo "Missing IEM_ICO.properties"
+            exit 1
+          fi
+
+          if [ -f "IEM_ICO_Primary.sql" ]; then 
+            echo "Found IEM_ICO_Primary.sql"
+          else
+            echo "Missing IEM_ICO_Primary.sql"
+            exit 1
+          fi
+
+      - name: Upload Deployment Package
+        run: |
+
+          RESPONSE=$(curl -v -X POST "${{ secrets.APP_URL }}/suite/deployment-management/v2/deployments" \
+            -H "Appian-API-Key: ${{ secrets.CALI_API_KEY }}" \
+            -F 'json={
+              "name":"IEM ICO Deployment",
+              "packageFileName":"IEM Core Objects - IEM ICO Full Application - 2026-05-21_0959.zip",
+              "customizationFileName":"IEM_ICO.properties",
+              "dataSource":"jdbc/Appian",
+              "databaseScripts":[
+                {
+                "fileName":"IEM_ICO_Primary.sql",
+                "orderId":1
+              }
+             ]
+            };type=application/json' \
+            -F "file=@IEM Core Objects - IEM ICO Full Application - 2026-05-21_0959.zip" \
+            -F "file=@IEM_ICO.properties" \
+            -F "file=@IEM_ICO_Primary.sql")
+            
+          echo "UPLOAD RESPONSE:"
+          echo "$RESPONSE"
+          
