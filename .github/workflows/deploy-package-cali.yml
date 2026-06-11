@@ -1,4 +1,4 @@
-name: Deploy Appian Package API
+name: Deploy Appian Package CALI (PROD)
 
 on: 
   workflow_dispatch:
