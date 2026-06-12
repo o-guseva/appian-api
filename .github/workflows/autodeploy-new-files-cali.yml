@@ -1,0 +1,86 @@
+name: Deploy Appian New Packages to CALI
+
+on: 
+  workflow_dispatch:
+
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy-appian:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Code 
+        uses: actions/checkout@v4 
+
+      - name: Find Files
+        run: |
+          PACKAGE_FILE=$(find . -maxdepth 1 -name "*.zip" | head -n 1 | sed 's|^\./||')
+          PROPERTIES_FILES=$(find . -maxdepth 1 -name "*.properties" | head -n 1 | sed 's|^\./||')
+          SQL_FILE=$(find . -maxdepth 1 -name "*.sql" | head -n 1 | sed 's|^\./||')
+
+          echo "ALL ZIP FILES:"
+          find . -maxdepth 1 -name "*.zip"
+          
+          echo "ALL PROPERTIES FILES:"
+          find . -maxdepth 1 -name "*.properties"
+
+          echo "ALL SQL FILES:"
+          find . -maxdepth 1 -name "*.sql"
+          
+          
+          echo "PACKAGE_FILE=$PACKAGE_FILE" >> $GITHUB_ENV
+          echo "PROPERTIES_FILES=$PROPERTIES_FILES" >> $GITHUB_ENV
+          echo "SQL_FILE=$SQL_FILE" >> $GITHUB_ENV
+
+          echo "ZIP FILE: $PACKAGE_FILE"
+          echo "PROPERTIES FILE: $PROPERTIES_FILES"
+          echo "SQL FILE: $SQL_FILE"
+          
+          if [ -z "$PACKAGE_FILE" ]; then
+            echo "No ZIP package found"
+            exit 1
+          fi
+
+      - name: Upload Deployment Package
+        env:
+          PACKAGE_FILE: ${{ env.PACKAGE_FILE }}
+          PROPERTIES_FILES: ${{ env.PROPERTIES_FILES }}
+          SQL_FILE: ${{ env.SQL_FILE }}
+          
+        run: |
+        
+          echo "PACKAGE_FILE=$PACKAGE_FILE" 
+          echo "PROPERTIES_FILES=$PROPERTIES_FILES" 
+          echo "SQL_FILE=$SQL_FILE"
+
+          JSON_BODY=$(cat <<EOF
+          {
+            "name":"GitHub Deployment",
+            "packageFileName":"$PACKAGE_FILE",
+            "customizationFileName":"$PROPERTIES_FILES",
+            "dataSource":"jdbc/Appian",
+            "databaseScripts":[
+              {
+                "fileName":"$SQL_FILE",
+                "orderId":1
+              }
+             ]
+            }
+          EOF
+          )
+          echo "============= JSON BODY =================="
+          echo "$JSON_BODY"
+          
+          RESPONSE=$(curl -s -X POST "${{ secrets.CALI_APP_URL }}/suite/deployment-management/v2/deployments" \
+            -H "Appian-API-Key: ${{ secrets.CALI_API_KEY }}" \
+            -F "json=$JSON_BODY;type=application/json" \
+            -F "file=@$PACKAGE_FILE" \
+            -F "file=@$PROPERTIES_FILES" \
+            -F "file=@$SQL_FILE"
+            )
+                                  
+          echo "UPLOAD RESPONSE:"
+          echo "$RESPONSE"
