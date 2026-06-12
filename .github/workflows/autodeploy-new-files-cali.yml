@@ -3,9 +3,6 @@ name: Deploy Appian New Packages to CALI
 on: 
   workflow_dispatch:
 
-  push:
-    branches:
-      - main
 
 jobs:
   deploy-appian:
