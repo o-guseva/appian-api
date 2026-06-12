@@ -1,11 +1,12 @@
-name: Deploy Appian New Packages API
+name: Deploy Appian New Packages to CALI
 
 on: 
   workflow_dispatch:
 
- # push:
-#    branches:
-#      - test
+  push:
+    branches:
+      - test
+      - main
 
 jobs:
   deploy-appian:
@@ -14,7 +15,30 @@ jobs:
     steps:
       - name: Checkout Code 
         uses: actions/checkout@v4 
-
+      - name: Set Environment Variables 
+        run: |
+          if [ "${GITHUB_REF_NAME}" = "test"]; then
+            echo "APP_URL=${{ secrets.TEST_APP_URL }}" >> $GITHUB_ENV
+            echo "APPIAN_API_KEY=${{ secrets.TEST_APPIAN_API_KEY }}" >> $GITHUB_ENV 
+            echo "DB_HOST=${{ secrets.TEST_DB_HOST }}" >> $GITHUB_ENV
+            echo "DB_NAME=${{ secrets.TEST_DB_NAME }}" >> $GITHUB_ENV 
+            echo "DB_PORT=${{ secrets.DB_PORT }}" >> $GITHUB_ENV
+            echo "DB_USER=${{ secrets.TEST_DB_USER }}" >> $GITHUB_ENV
+            echo "DB_PASSWORD=${{ secrets.TEST_DB_PASSWORD }}" >> $GITHUB_ENV
+            
+          elif [ "${GITHUB_REF_NAME}" = "main"]; then
+            echo "APP_URL=${{ secrets.PROD_APP_URL }}" >> $GITHUB_ENV
+            echo "APPIAN_API_KEY=${{ secrets.PROD_APPIAN_API_KEY }}" >> $GITHUB_ENV
+            echo "DB_HOST=${{ secrets.PROD_DB_HOST }}" >> $GITHUB_ENV
+            echo "DB_NAME=${{ secrets.PROD_DB_NAME }}" >> $GITHUB_ENV 
+            echo "DB_PORT=${{ secrets.DB_PORT }}" >> $GITHUB_ENV
+            echo "DB_USER=${{ secrets.PROD_DB_USER }}" >> $GITHUB_ENV
+            echo "DB_PASSWORD=${{ secrets.PROD_DB_PASSWORD }}" >> $GITHUB_ENV
+          else
+            echo "Unsupported branch"
+            exit 1
+          fi 
+          
       - name: Find Files
         run: |
           PACKAGE_FILE=$(find . -maxdepth 1 -name "*.zip" | head -n 1 | sed 's|^\./||')
