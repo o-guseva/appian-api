@@ -3,9 +3,9 @@ name: Deploy Appian New Packages API
 on: 
   workflow_dispatch:
 
-  push:
-    branches:
-      - test
+ # push:
+#    branches:
+#      - test
 
 jobs:
   deploy-appian:
