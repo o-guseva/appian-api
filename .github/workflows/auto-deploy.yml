@@ -43,9 +43,9 @@ jobs:
           echo "================================================="
           echo "Branch: $GITHUB_REF_NAME"
 
-          if [ "$GITHUB_REF_NAME" = "test"]; then
+          if [ "$GITHUB_REF_NAME" = "test" ]; then
             echo "Deploying to CALI DEV"
-          elif [ "$GITHUB_REF_NAME" = "main"]; then
+          elif [ "$GITHUB_REF_NAME" = "main" ]; then
             echo "Deploying to CALI PROD"
           fi
           echo "================================================="          
