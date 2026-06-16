@@ -42,6 +42,7 @@ jobs:
         run: |
           echo "================================================="
           echo "Branch: $GITHUB_REF_NAME"
+          echo "APP_URL=$APP_URL"
 
           if [ "$GITHUB_REF_NAME" = "test" ]; then
             echo "Deploying to CALI DEV"
