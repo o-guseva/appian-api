@@ -7,7 +7,7 @@ on:
     branches:
       - test
       - main
-
+      
 jobs:
   deploy-appian:
     runs-on: ubuntu-latest
