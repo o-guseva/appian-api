@@ -1,12 +1,8 @@
-name: DEPLOY APPIAN PACKAGES
+name: Deploy Appian New Packages to CALI
 
 on: 
   workflow_dispatch:
 
-  push:
-    branches:
-      - test
-      - main
 
 jobs:
   deploy-appian:
@@ -15,42 +11,7 @@ jobs:
     steps:
       - name: Checkout Code 
         uses: actions/checkout@v4 
-      - name: Set Environment Variables 
-        run: |
-          if [ "${GITHUB_REF_NAME}" = "test" ]; then
-            echo "APP_URL=${{ secrets.TEST_APP_URL }}" >> $GITHUB_ENV
-            echo "APPIAN_API_KEY=${{ secrets.TEST_APPIAN_API_KEY }}" >> $GITHUB_ENV 
-            echo "DB_HOST=${{ secrets.TEST_DB_HOST }}" >> $GITHUB_ENV
-            echo "DB_NAME=${{ secrets.TEST_DB_NAME }}" >> $GITHUB_ENV 
-            echo "DB_PORT=${{ secrets.DB_PORT }}" >> $GITHUB_ENV
-            echo "DB_USER=${{ secrets.TEST_DB_USER }}" >> $GITHUB_ENV
-            echo "DB_PASSWORD=${{ secrets.TEST_DB_PASSWORD }}" >> $GITHUB_ENV
-            
-          elif [ "${GITHUB_REF_NAME}" = "main" ]; then
-            echo "APP_URL=${{ secrets.PROD_APP_URL }}" >> $GITHUB_ENV
-            echo "APPIAN_API_KEY=${{ secrets.PROD_APPIAN_API_KEY }}" >> $GITHUB_ENV
-            echo "DB_HOST=${{ secrets.PROD_DB_HOST }}" >> $GITHUB_ENV
-            echo "DB_NAME=${{ secrets.PROD_DB_NAME }}" >> $GITHUB_ENV 
-            echo "DB_PORT=${{ secrets.DB_PORT }}" >> $GITHUB_ENV
-            echo "DB_USER=${{ secrets.PROD_DB_USER }}" >> $GITHUB_ENV
-            echo "DB_PASSWORD=${{ secrets.PROD_DB_PASSWORD }}" >> $GITHUB_ENV
-          else
-            echo "Unsupported branch"
-            exit 1
-          fi 
-      - name: Show Deployment Target
-        run: |
-          echo "================================================="
-          echo "Branch: $GITHUB_REF_NAME"
-          echo "APP_URL=$APP_URL"
 
-          if [ "$GITHUB_REF_NAME" = "test" ]; then
-            echo "Deploying to CALI DEV"
-          elif [ "$GITHUB_REF_NAME" = "main" ]; then
-            echo "Deploying to CALI PROD"
-          fi
-          echo "================================================="          
-          
       - name: Find Files
         run: |
           PACKAGE_FILE=$(find . -maxdepth 1 -name "*.zip" | head -n 1 | sed 's|^\./||')
@@ -110,8 +71,8 @@ jobs:
           echo "============= JSON BODY =================="
           echo "$JSON_BODY"
           
-          RESPONSE=$(curl -s -X POST "$APP_URL/suite/deployment-management/v2/deployments" \
-            -H "Appian-API-Key: $APPIAN_API_KEY" \
+          RESPONSE=$(curl -s -X POST "${{ secrets.CALI_APP_URL }}/suite/deployment-management/v2/deployments" \
+            -H "Appian-API-Key: ${{ secrets.CALI_API_KEY }}" \
             -F "json=$JSON_BODY;type=application/json" \
             -F "file=@$PACKAGE_FILE" \
             -F "file=@$PROPERTIES_FILES" \

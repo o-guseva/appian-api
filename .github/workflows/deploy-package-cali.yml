@@ -1,7 +1,11 @@
-name: Deploy Appian Package API
+name: Deploy Appian Package to CALI (PROD)
 
 on: 
   workflow_dispatch:
+  
+  #push:
+  #  branches:
+    #  - main 
 
 jobs:
   deploy-appian:
@@ -42,7 +46,7 @@ jobs:
       - name: Upload Deployment Package
         run: |
 
-          RESPONSE=$(curl -v -X POST "${{ secrets.APP_URL }}/suite/deployment-management/v2/deployments" \
+          RESPONSE=$(curl -v -X POST "${{ secrets.CALI_APP_URL }}/suite/deployment-management/v2/deployments" \
             -H "Appian-API-Key: ${{ secrets.CALI_API_KEY }}" \
             -F 'json={
               "name":"IEM ICO Deployment",
