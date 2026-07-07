@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<processModelFolderHaul xmlns:a="http://www.appian.com/ae/types/2009">
+    <versionUuid>_g-0000ee9a-01f5-8000-ba26-014d98014d98_66</versionUuid>
+    <processModelFolder>
+        <name>IEM ICO Process Models</name>
+        <uuid>a7750425-94dd-4c02-a3b3-ea95be8511c2</uuid>
+        <description>Process models folder for the IEM Core Objects application</description>
+    </processModelFolder>
+    <roleMap>
+        <role name="ADMIN_OWNER">
+            <users/>
+            <groups>
+                <groupUuid>6468e194-9b66-46ee-87b6-b472438e6d35</groupUuid>
+            </groups>
+        </role>
+        <role name="EDITOR">
+            <users/>
+            <groups/>
+        </role>
+        <role name="EXPLICIT_NONMEMBER">
+            <users/>
+            <groups/>
+        </role>
+        <role name="VIEWER">
+            <users/>
+            <groups>
+                <groupUuid>d5a01b2f-3a6d-4581-bb0a-b149c2e127b4</groupUuid>
+            </groups>
+        </role>
+        <role name="MANAGER">
+            <users/>
+            <groups/>
+        </role>
+        <role name="INITIATOR">
+            <users/>
+            <groups/>
+        </role>
+    </roleMap>
+    <history>
+        <historyInfo versionUuid="7c4da2f8-2cc5-4f34-b274-3250be168543"/>
+        <historyInfo versionUuid="_g-0000e7bd-4272-8000-0b7c-7f0000014e7a_132"/>
+        <historyInfo versionUuid="_g-0000eaa5-7859-8000-4492-014d98014d98_190"/>
+        <historyInfo versionUuid="_g-0000ee9a-01f5-8000-ba26-014d98014d98_66"/>
+    </history>
+</processModelFolderHaul>

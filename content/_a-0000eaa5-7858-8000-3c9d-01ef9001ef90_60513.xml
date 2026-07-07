@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<contentHaul xmlns:a="http://www.appian.com/ae/types/2009">
+    <versionUuid>_a-0000eaa5-7858-8000-3c9d-01ef9001ef90_60532</versionUuid>
+    <constant>
+        <name>IEM_ICO_OPTIONS_BOOLEAN_LABEL_WITH_NA</name>
+        <uuid>_a-0000eaa5-7858-8000-3c9d-01ef9001ef90_60513</uuid>
+        <description>Boolean options &lt;br&gt;
+1) Yes &lt;br&gt;
+2) No &lt;br&gt;
+3) N/A &lt;br&gt;</description>
+        <parentUuid>_a-0000e2c3-93ef-8000-9ba2-011c48011c48_2351155</parentUuid>
+        <visibility>
+            <advertise>false</advertise>
+            <hierarchy>true</hierarchy>
+            <indexable>true</indexable>
+            <quota>false</quota>
+            <searchable>true</searchable>
+            <system>false</system>
+            <unlogged>false</unlogged>
+        </visibility>
+        <typedValue>
+            <type>
+                <name>Text?list</name>
+                <namespace>http://www.appian.com/ae/types/2009</namespace>
+            </type>
+            <value>
+                <el>Yes</el>
+                <el>No</el>
+                <el>N/A</el>
+            </value>
+        </typedValue>
+        <isEnvironmentSpecific>false</isEnvironmentSpecific>
+    </constant>
+    <roleMap public="true">
+        <role inherit="true" allowForAll="false" name="readers">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="true" allowForAll="false" name="authors">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="true" allowForAll="false" name="administrators">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyReaders">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyAuthors">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyAdministrators">
+            <users/>
+            <groups/>
+        </role>
+    </roleMap>
+    <history>
+        <historyInfo versionUuid="_a-0000eaa5-7858-8000-3c9d-01ef9001ef90_60532"/>
+    </history>
+</contentHaul>
