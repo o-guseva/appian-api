@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<contentHaul xmlns:a="http://www.appian.com/ae/types/2009">
+    <versionUuid>_a-0000eaa5-7858-8000-3c9d-01ef9001ef90_59543</versionUuid>
+    <rule>
+        <name>IEM_ICO_GENERATE_RecordFilterListOptionsGroups</name>
+        <uuid>_a-0000e5cf-202e-8000-9bb0-011c48011c48_3945678</uuid>
+        <description>Generates a list of Record Filter List Options given a list of Groups</description>
+        <parentUuid>_a-0000e2c3-93ef-8000-9ba2-011c48011c48_2351149</parentUuid>
+        <visibility>
+            <advertise>false</advertise>
+            <hierarchy>true</hierarchy>
+            <indexable>true</indexable>
+            <quota>false</quota>
+            <searchable>true</searchable>
+            <system>false</system>
+            <unlogged>false</unlogged>
+        </visibility>
+        <definition>a!localVariables(
+  local!keyValues: 
+  #"SYSTEM_SYSRULES_forEach"(
+    items: ri!userOrGroup,
+    expression: 
+    'type!{urn:com:appian:types:IEM_ICO}IEM_ICO_UTY_KeyValue'(
+      key: fv!item,
+      value: 
+      if(#"_a-0000eaa5-7858-8000-3c9d-01ef9001ef90_59490"(value: fv!item),
+      #"_a-0000eaa5-7858-8000-3c9d-01ef9001ef90_59434"(group: fv!item),
+      #"_a-0000e2c3-93ef-8000-9ba2-011c48011c48_2357147"(user: fv!item)
+      )
+    )
+  ),
+  #"_a-0000eaa5-7858-8000-3c9d-01ef9001ef90_59413"(
+    keyValue: local!keyValues,
+    field: ri!field
+  )
+)</definition>
+        <namedTypedValue>
+            <name>userOrGroup</name>
+            <description>Can be a list</description>
+            <type>
+                <name>UserOrGroup?list</name>
+                <namespace>http://www.appian.com/ae/types/2009</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>field</name>
+            <type>
+                <name>Variant</name>
+                <namespace>http://www.appian.com/ae/types/2009</namespace>
+            </type>
+        </namedTypedValue>
+        <preferredEditor>legacy</preferredEditor>
+        <offlineEnabled>false</offlineEnabled>
+    </rule>
+    <roleMap public="true">
+        <role inherit="true" allowForAll="false" name="readers">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="true" allowForAll="false" name="authors">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="true" allowForAll="false" name="administrators">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyReaders">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyAuthors">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyAdministrators">
+            <users/>
+            <groups/>
+        </role>
+    </roleMap>
+    <history>
+        <historyInfo versionUuid="_a-0000e5cf-202e-8000-9bb0-011c48011c48_3945683"/>
+        <historyInfo versionUuid="_a-0000eaa5-7858-8000-3c9d-01ef9001ef90_59543"/>
+    </history>
+</contentHaul>

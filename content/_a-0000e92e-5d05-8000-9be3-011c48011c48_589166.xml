@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<contentHaul xmlns:a="http://www.appian.com/ae/types/2009">
+    <versionUuid>_a-0000efa8-4346-8000-3cdd-01ef9001ef90_244254</versionUuid>
+    <rule>
+        <name>IEM_ICO_FILTER_ArrayForPicker</name>
+        <uuid>_a-0000e92e-5d05-8000-9be3-011c48011c48_589166</uuid>
+        <description>Filter function to find value based on label</description>
+        <parentUuid>_a-0000e2c3-93ef-8000-9ba2-011c48011c48_2351149</parentUuid>
+        <visibility>
+            <advertise>false</advertise>
+            <hierarchy>true</hierarchy>
+            <indexable>true</indexable>
+            <quota>false</quota>
+            <searchable>true</searchable>
+            <system>false</system>
+            <unlogged>false</unlogged>
+        </visibility>
+        <definition>a!localVariables(
+  /*DEFAULTS*/
+  local!allowCustomEntries: a!defaultValue(value: ri!allowCustomEntries, default: false),
+  
+  /*CALC*/
+  local!matches: 
+  where(
+    #"SYSTEM_SYSRULES_forEach"(
+      items: ri!labels, 
+      expression: search(ri!filter, fv!item, 1)
+    )
+  ),
+  
+  #"SYSTEM_SYSRULES_dataSubset"(
+    data: 
+    if(local!allowCustomEntries,
+      append(index(ri!labels, local!matches, {}), ri!filter),
+      index(ri!labels, local!matches, {})
+    ), 
+    identifiers: index(ri!identifiers, local!matches, {})
+  )
+)
+</definition>
+        <namedTypedValue>
+            <name>filter</name>
+            <type>
+                <name>string</name>
+                <namespace>http://www.w3.org/2001/XMLSchema</namespace>
+            </type>
+            <value/>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>identifiers</name>
+            <type>
+                <name>Text?list</name>
+                <namespace>http://www.appian.com/ae/types/2009</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>labels</name>
+            <type>
+                <name>Text?list</name>
+                <namespace>http://www.appian.com/ae/types/2009</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>allowCustomEntries</name>
+            <type>
+                <name>boolean</name>
+                <namespace>http://www.w3.org/2001/XMLSchema</namespace>
+            </type>
+        </namedTypedValue>
+        <preferredEditor>legacy</preferredEditor>
+        <offlineEnabled>false</offlineEnabled>
+    </rule>
+    <roleMap public="true">
+        <role inherit="true" allowForAll="false" name="readers">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="true" allowForAll="false" name="authors">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="true" allowForAll="false" name="administrators">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyReaders">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyAuthors">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyAdministrators">
+            <users/>
+            <groups/>
+        </role>
+    </roleMap>
+    <history>
+        <historyInfo versionUuid="_a-0000e92e-5d05-8000-9be3-011c48011c48_589177"/>
+        <historyInfo versionUuid="_a-0000ed1a-a053-8000-3ccd-01ef9001ef90_163200"/>
+        <historyInfo versionUuid="_a-0000ee9a-01f5-8000-af67-01ef9001ef90_219390"/>
+        <historyInfo versionUuid="_a-0000efa8-4346-8000-3cdd-01ef9001ef90_244254"/>
+    </history>
+</contentHaul>
