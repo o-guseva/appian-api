@@ -87,8 +87,21 @@ jobs:
             -x ".git/*" \
                ".github/*" \
                "README.md"
+               
+          echo "========= ZIP CHECK ============="
+          pwd
+          ls -lah
+          find . -name "appian-package.zip"
+
+          if [ -f appian-package.zip ]; then
+            echo "ZIP EXISTS"
+            ls -lh appian-package.zip
+          else
+            echo "ZIP NOT FOUND"
+            exit 1
+          fi
           echo "PACKAGE_FILE=appian-package.zip" >> $GITHUB_ENV
-          
+  
           PROPERTIES_FILES=$(find . -maxdepth 1 -name "*.properties" | head -n 1 | sed 's|^\./||')
           SQL_FILE=$(find . -maxdepth 1 -name "*.sql" | head -n 1 | sed 's|^\./||')
           echo "PROPERTIES_FILES=$PROPERTIES_FILES" >> $GITHUB_ENV
