@@ -58,7 +58,7 @@ jobs:
           echo "Comparing current commit with previous...."
           echo "================================"
 
-          git diff --name-status HEAD~1 HEAD > diff-report.txt || true
+          git diff --name-status ${{ github.event.before }} ${{ github.sha }} 
           echo ""
           echo "Changed files:"
           cat diff-report.txt
