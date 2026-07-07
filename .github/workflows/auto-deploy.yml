@@ -88,8 +88,13 @@ jobs:
                ".github/*" \
                "README.md"
           echo "PACKAGE_FILE=appian-package.zip" >> $GITHUB_ENV
+          
           PROPERTIES_FILES=$(find . -maxdepth 1 -name "*.properties" | head -n 1 | sed 's|^\./||')
           SQL_FILE=$(find . -maxdepth 1 -name "*.sql" | head -n 1 | sed 's|^\./||')
+          echo "PROPERTIES_FILES=$PROPERTIES_FILES" >> $GITHUB_ENV
+          echo "SQL_FILE=$SQL_FILE" >> $GITHUB_ENV
+          echo "Selected properties file: $PROPERTIES_FILES"
+          echo "Selected SQL file: $SQL_FILE"
           echo "ALL PROPERTIES FILES:"
           find . -maxdepth 1 -name "*.properties"
           echo "ALL SQL FILES:"
