@@ -66,13 +66,13 @@ jobs:
           cat diff-report.txt
           echo ""
           echo "Added:"
-          grep "^A" diff-report.txt || true
+          grep "^Added" diff-report.txt || true
           echo ""
           echo "Modified:"
-          grep "^M" diff-report.txt || true
+          grep "^Modified" diff-report.txt || true
           echo ""
           echo "Deleted:"
-          grep "^D" diff-report.txt || true
+          grep "^Deleted" diff-report.txt || true
           echo ""
           echo "Creating Deployment Package"
           zip -r appian-package.zip \
