@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <contentHaul xmlns:a="http://www.appian.com/ae/types/2009">
-    <versionUuid>_a-0000efa8-4346-8000-3cdd-01ef9001ef90_254225</versionUuid>
+    <versionUuid>_a-0000ef3e-d5ce-8000-af6b-01ef9001ef90_402301</versionUuid>
     <interface>
         <name>IEM_ICO_CMPT_DateTimeField</name>
         <uuid>_a-0000eaea-80ef-8000-3ca2-01ef9001ef90_106619</uuid>
@@ -100,7 +100,7 @@
         <namedTypedValue>
             <name>value</name>
             <type>
-                <name>dateTime</name>
+                <name>date</name>
                 <namespace>http://www.w3.org/2001/XMLSchema</namespace>
             </type>
         </namedTypedValue>
@@ -236,7 +236,7 @@
                     <a:id>6</a:id>
                 </a:ruleInputTestConfigs>
                 <a:ruleInputTestConfigs>
-                    <a:value xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true" xsi:type="xsd:dateTime"/>
+                    <a:value xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="xsd:date">1962-09-01Z</a:value>
                     <a:nameRef>value</a:nameRef>
                     <a:id>7</a:id>
                 </a:ruleInputTestConfigs>
@@ -288,6 +288,5 @@
         <historyInfo versionUuid="_a-0000eaea-80ef-8000-3ca2-01ef9001ef90_106633"/>
         <historyInfo versionUuid="_a-0000ef0f-9abf-8000-af69-01ef9001ef90_310601"/>
         <historyInfo versionUuid="_a-0000ef3e-d5ce-8000-af6b-01ef9001ef90_402301"/>
-        <historyInfo versionUuid="_a-0000efa8-4346-8000-3cdd-01ef9001ef90_254225"/>
     </history>
 </contentHaul>
