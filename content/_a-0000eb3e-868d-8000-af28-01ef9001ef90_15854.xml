@@ -1,0 +1,175 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<contentHaul xmlns:a="http://www.appian.com/ae/types/2009">
+    <versionUuid>_a-0000eb3e-868d-8000-af28-01ef9001ef90_15960</versionUuid>
+    <interface>
+        <name>IEM_ICO_CMPT_ReadOnlyGridDynamicJson</name>
+        <uuid>_a-0000eb3e-868d-8000-af28-01ef9001ef90_15854</uuid>
+        <description></description>
+        <parentUuid>_a-0000e258-a92d-8000-9ba2-011c48011c48_2110934</parentUuid>
+        <visibility>
+            <advertise>false</advertise>
+            <hierarchy>true</hierarchy>
+            <indexable>true</indexable>
+            <quota>false</quota>
+            <searchable>true</searchable>
+            <system>false</system>
+            <unlogged>false</unlogged>
+        </visibility>
+        <definition>a!localVariables(
+  local!data: #"SYSTEM_SYSRULES_fromJson_v1"(ri!json).listOfQuestions,
+  local!columns: touniformstring(property(index(local!data, 1, {}), "question", {})),
+  local!columnsGrid: {"Document Name", local!columns},
+  {
+    #"SYSTEM_SYSRULES_gridField_v2"(
+      label: "Read-only Grid - For Dynamic JSON",
+      labelPosition: "ABOVE",
+      data: todatasubset(
+        #"SYSTEM_SYSRULES_forEach"(
+          items: local!data,
+          expression: {
+            id: fv!index,
+            question: touniformstring(fv!item.question),
+            answer: touniformstring(fv!item.answer)
+          }
+        ),
+        fv!pagingInfo
+      ),
+      pagingSaveInto: fv!pagingInfo,
+      columns: {
+        #"SYSTEM_SYSRULES_forEach"(
+          items: local!columnsGrid,
+          expression: 
+          a!localVariables(
+            local!index: fv!index - 1,
+            #"SYSTEM_SYSRULES_gridColumn"(
+              label: fv!item,
+              /*sortField: fv!item,*/
+              value: if(contains(local!columns, fv!item), fv!row.answer[local!index], "Some Doc Name" &amp; fv!row.id)
+            )
+          )
+        )
+      },
+      pageSize: 10
+    )
+  }
+)</definition>
+        <namedTypedValue>
+            <name>json</name>
+            <type>
+                <name>string</name>
+                <namespace>http://www.w3.org/2001/XMLSchema</namespace>
+            </type>
+            <value/>
+        </namedTypedValue>
+        <preferredEditor>interface</preferredEditor>
+        <offlineEnabled>false</offlineEnabled>
+        <isCustom>false</isCustom>
+    </interface>
+    <roleMap public="true">
+        <role inherit="true" allowForAll="false" name="readers">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="true" allowForAll="false" name="authors">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="true" allowForAll="false" name="administrators">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyReaders">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyAuthors">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyAdministrators">
+            <users/>
+            <groups/>
+        </role>
+    </roleMap>
+    <typedValue>
+        <type>
+            <name>RuleTestConfig?list</name>
+            <namespace>http://www.appian.com/ae/types/2009</namespace>
+        </type>
+        <value>
+            <el>
+                <a:name/>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="a:Expression">#"SYSTEM_SYSRULES_toJson_v1"({
+  {
+    listOfQuestions:
+    {
+      {
+        question: "Provide the value of the invoice number only. For example, a good response may be: 'INV0001'.",
+        answer: "110792"
+      },
+      {
+        question: "Provide the value of the vendor name only. For example, a good response may be: 'Smith Consultants, Inc.. '",
+        answer: "LUMA Energy ServCo., LLC"
+      },
+      {
+        question: "Provide the value of the invoice amount only. For example, a good response may be: '$1000.00'.",
+        answer: "$37,874.31"
+      },
+      {
+        question: "Provide the value of the period only. For example, 'December, a good response may be: '2022'.",
+        answer: "July"
+      },
+      {
+        question: "Provide the value of the work order number only. For example, a good response may be: '12345-123'.",
+        answer: ""
+      },
+      {
+        question: "Provide the value of the contact only. This is also sometimes called the PO number. For example, a good response may be: '12345'.",
+        answer: "91142907"
+      }
+    }
+  },
+  {},
+  {
+    listOfQuestions:
+    {
+      {
+        question: "Provide the value of the invoice number only. For example, a good response may be: 'INV0001'.",
+        answer: "INVOICE 202 3-9050"
+      },
+      {
+        question: "Provide the value of the vendor name only. For example, a good response may be: 'Smith Consultants, Inc.. '",
+        answer: "Hotel Aloft Ponce"
+      },
+      {
+        question: "Provide the value of the invoice amount only. For example, a good response may be: '$1000.00'.",
+        answer: "$7,798.95"
+      },
+      {
+        question: "Provide the value of the period only. For example, 'December, a good response may be: '2022'.",
+        answer: "September"
+      },
+      {
+        question: "Provide the value of the work order number only. For example, a good response may be: '12345-123'.",
+        answer: "The value above me should be empty!!!"
+      },
+      {
+        question: "Provide the value of the contact only. This is also sometimes called the PO number. For example, a good response may be: '12345'.",
+        answer: "test1234"
+      }
+    }
+  }
+}
+)</a:value>
+                    <a:nameRef>json</a:nameRef>
+                    <a:id>1</a:id>
+                </a:ruleInputTestConfigs>
+                <a:assertions xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true"/>
+            </el>
+        </value>
+    </typedValue>
+    <history>
+        <historyInfo versionUuid="_a-0000eb3e-868d-8000-af28-01ef9001ef90_15960"/>
+    </history>
+</contentHaul>

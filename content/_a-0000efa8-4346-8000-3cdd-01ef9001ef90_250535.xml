@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<contentHaul xmlns:a="http://www.appian.com/ae/types/2009">
+    <versionUuid>_a-0000efa8-4346-8000-3cdd-01ef9001ef90_250594</versionUuid>
+    <rule>
+        <name>IEM_ICO_EXTRACT_RecordTypeUuid</name>
+        <uuid>_a-0000efa8-4346-8000-3cdd-01ef9001ef90_250535</uuid>
+        <description>Given a RecordType, returns the UUID</description>
+        <parentUuid>_a-0000e2c3-93ef-8000-9ba2-011c48011c48_2351149</parentUuid>
+        <visibility>
+            <advertise>false</advertise>
+            <hierarchy>true</hierarchy>
+            <indexable>true</indexable>
+            <quota>false</quota>
+            <searchable>true</searchable>
+            <system>false</system>
+            <unlogged>false</unlogged>
+        </visibility>
+        <definition>if(a!isNullOrEmpty(ri!recordType),
+  tostring(null),
+  a!localVariables(
+    /*CONVERT TO XML FOR EXTRACTION*/
+    local!xml: toxml(ri!recordType),
+    /*PATH TO UUID*/
+    if(a!isNullOrEmpty(local!xml),
+      tostring(null),
+      xpathsnippet(local!xml, "//a:RecordType2[1]/@a:uuid")
+    )
+  )
+)</definition>
+        <namedTypedValue>
+            <name>recordType</name>
+            <type>
+                <name>RecordType2</name>
+                <namespace>http://www.appian.com/ae/types/2009</namespace>
+            </type>
+        </namedTypedValue>
+        <preferredEditor>legacy</preferredEditor>
+        <offlineEnabled>false</offlineEnabled>
+    </rule>
+    <roleMap public="true">
+        <role inherit="true" allowForAll="false" name="readers">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="true" allowForAll="false" name="authors">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="true" allowForAll="false" name="administrators">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyReaders">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyAuthors">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyAdministrators">
+            <users/>
+            <groups/>
+        </role>
+    </roleMap>
+    <history>
+        <historyInfo versionUuid="_a-0000efa8-4346-8000-3cdd-01ef9001ef90_250594"/>
+    </history>
+</contentHaul>

@@ -1,0 +1,345 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<contentHaul xmlns:a="http://www.appian.com/ae/types/2009">
+    <versionUuid>_a-0000ee9a-01f5-8000-af67-01ef9001ef90_200898</versionUuid>
+    <interface>
+        <name>IEM_ICO_CMPT_ButtonTitleBarControls</name>
+        <uuid>_a-0000eb6e-4e4d-8000-af2c-01ef9001ef90_68565</uuid>
+        <description>PROTOTYPE: Standard set of buttons for a window title bar &lt;br&gt;&lt;br&gt;
+Has options for left or right alignment and additional buttons content</description>
+        <parentUuid>_a-0000e258-a92d-8000-9ba2-011c48011c48_2110934</parentUuid>
+        <visibility>
+            <advertise>false</advertise>
+            <hierarchy>true</hierarchy>
+            <indexable>true</indexable>
+            <quota>false</quota>
+            <searchable>true</searchable>
+            <system>false</system>
+            <unlogged>false</unlogged>
+        </visibility>
+        <definition>if(ri!showWhen &lt;&gt; false,
+  a!localVariables(
+    /*DEFAULTS*/
+    local!isSubmit: a!defaultValue(value: ri!isSubmit, default: false),
+    local!align: a!defaultValue(value: ri!align, default: "END"),
+    local!marginBelow: a!defaultValue(value: ri!marginBelow, default: "EVEN_LESS"),
+    local!showActionClose: a!defaultValue(value: ri!showActionClose, default: false),
+    local!showActionRestore: a!defaultValue(value: ri!showActionRestore, default: true),
+    local!showActionMaximize: a!defaultValue(value: ri!showActionMaximize, default: false),
+    local!actions: 
+    if(ri!selectedAction = "CLOSE",
+      {},
+      reject(isnull(_),
+        {
+          ri!additionalActions,
+          a!map(
+            action: "MINIMIZE",
+            label: "MINIMIZE" 
+            &amp; if(ri!selectedAction = "MINIMIZE", 
+                if(a!isNullOrEmpty(ri!label), 
+                  ": Already minimized", 
+                  ": " &amp; ri!label &amp; " is already minimized"
+                ), 
+              ""
+            ),
+            icon: "compress",
+            /*color: "#FDBE46",*/
+            orderBy: 1,
+            isDisabled: ri!selectedAction = "MINIMIZE",
+            showWhen: if(local!showActionRestore, ri!selectedAction &lt;&gt; "MINIMIZE", true)
+          ),
+          a!map(
+            action: "RESTORE",
+            label: "RESTORE" &amp; if(a!isNullOrEmpty(ri!label), 
+            "", 
+            ": " &amp; ri!label
+            ),  
+            icon: "window-restore",
+            /*color: "#FDBE46",*/
+            orderBy: 2,
+            isDisabled: a!isNullOrEmpty(ri!selectedAction),
+            showWhen: 
+            and(
+              local!showActionRestore,
+              contains({"MINIMIZE"}, ri!selectedAction)
+            )
+          ),
+          a!map(
+            action: "MAXIMIZE",
+            label: "MAXIMIZE" 
+            &amp; if(ri!selectedAction = "MAXIMIZE", 
+              if(a!isNullOrEmpty(ri!label), 
+                ": Already maximized", 
+                ": " &amp; ri!label &amp; " is already maximized"
+              ), ""
+            ), 
+            icon: "window-maximize",
+            /*color: "#3CCA51",*/
+            orderBy: 3,
+            isDisabled: ri!selectedAction = "MAXIMIZE",
+            showWhen: if(local!showActionMaximize, if(local!showActionRestore, ri!selectedAction &lt;&gt; "MAXIMIZE", true), false)
+          ),
+          a!map(
+            action: "RESTORE",
+            label: "RESTORE" &amp; 
+            if(a!isNullOrEmpty(ri!label), 
+              "", 
+              ": " &amp; ri!label
+            ),  
+            icon: "expand",
+            color: "#3CCA51",
+            orderBy: 4,
+            isDisabled: a!isNullOrEmpty(ri!selectedAction),
+            showWhen: 
+            and(
+              local!showActionRestore,
+              contains({"MAXIMIZE", "CLOSE"}, ri!selectedAction)
+            )
+          ),
+          a!map(
+            action: "CLOSE",
+            label: "CLOSE" &amp; if(ri!selectedAction = "CLOSE", ": Already closed", ""), 
+            icon: "window-close-o",
+            color: "#FC5C58",
+            orderBy: 4,
+            isDisabled: ri!showActionClose = "CLOSE",
+            showWhen: ri!showActionClose = true
+          )
+        }
+      )
+    ),
+    
+    /*CALC*/
+    local!buttons:
+    a!refreshVariable(
+      refreshAlways: true,
+      value: 
+      #"SYSTEM_SYSRULES_forEach"(
+        items: local!actions,
+        expression: 
+        #"SYSTEM_SYSRULES_buttonWidget_v1"(
+          width: "MINIMIZE",
+          tooltip: fv!item.label,
+          icon: fv!item.icon,
+          color: fv!item.color,
+          disabled: fv!item.isDisabled,
+          submit: local!isSubmit,
+          loadingIndicator: true,
+          style: "LINK",
+          /*if(ri!selectedAction = fv!item.label,*/
+            /*"LINK",*/
+            /*"GHOST"*/
+          /*),*/
+          value: fv!item.label,
+          saveInto: {
+            if(ri!selectedAction = fv!item.label, 
+              {
+                a!save(ri!selectedAction, "")
+              },
+              {
+                a!save(ri!selectedAction, fv!item.label)
+              }
+            ),
+            ri!saveInto
+          },
+          showWhen: fv!item.showWhen
+        )
+      )
+    ),
+    
+    /*DISPLAY*/
+    #"SYSTEM_SYSRULES_ButtonArrayLayout"(
+      buttons: local!buttons,
+      align: local!align,
+      marginBelow: ri!marginBelow
+    )
+  ), {}
+)</definition>
+        <namedTypedValue>
+            <name>selectedAction</name>
+            <type>
+                <name>string</name>
+                <namespace>http://www.w3.org/2001/XMLSchema</namespace>
+            </type>
+            <value/>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>saveInto</name>
+            <type>
+                <name>Save?list</name>
+                <namespace>http://www.appian.com/ae/types/2009</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>showWhen</name>
+            <type>
+                <name>boolean</name>
+                <namespace>http://www.w3.org/2001/XMLSchema</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>marginBelow</name>
+            <type>
+                <name>string</name>
+                <namespace>http://www.w3.org/2001/XMLSchema</namespace>
+            </type>
+            <value/>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>isSubmit</name>
+            <description>Optional - Default is FALSE</description>
+            <type>
+                <name>boolean</name>
+                <namespace>http://www.w3.org/2001/XMLSchema</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>align</name>
+            <description>Optional - Default is "START" &lt;br&gt;
+Options: "START", "CENTER", "END"</description>
+            <type>
+                <name>string</name>
+                <namespace>http://www.w3.org/2001/XMLSchema</namespace>
+            </type>
+            <value/>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>showActionClose</name>
+            <type>
+                <name>boolean</name>
+                <namespace>http://www.w3.org/2001/XMLSchema</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>additionalActions</name>
+            <type>
+                <name>Variant</name>
+                <namespace>http://www.appian.com/ae/types/2009</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>label</name>
+            <type>
+                <name>string</name>
+                <namespace>http://www.w3.org/2001/XMLSchema</namespace>
+            </type>
+            <value/>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>showActionRestore</name>
+            <type>
+                <name>boolean</name>
+                <namespace>http://www.w3.org/2001/XMLSchema</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>showActionMaximize</name>
+            <type>
+                <name>boolean</name>
+                <namespace>http://www.w3.org/2001/XMLSchema</namespace>
+            </type>
+        </namedTypedValue>
+        <preferredEditor>interface</preferredEditor>
+        <offlineEnabled>true</offlineEnabled>
+        <isCustom>true</isCustom>
+        <customDisplayName>IEM ICO Button Title Bar Controls</customDisplayName>
+    </interface>
+    <roleMap public="true">
+        <role inherit="true" allowForAll="false" name="readers">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="true" allowForAll="false" name="authors">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="true" allowForAll="false" name="administrators">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyReaders">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyAuthors">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyAdministrators">
+            <users/>
+            <groups/>
+        </role>
+    </roleMap>
+    <typedValue>
+        <type>
+            <name>RuleTestConfig?list</name>
+            <namespace>http://www.appian.com/ae/types/2009</namespace>
+        </type>
+        <value>
+            <el>
+                <a:name/>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="a:Expression">null</a:value>
+                    <a:nameRef>selectedAction</a:nameRef>
+                    <a:id>1</a:id>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="a:Expression">null</a:value>
+                    <a:nameRef>saveInto</a:nameRef>
+                    <a:id>2</a:id>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true" xsi:type="xsd:boolean"/>
+                    <a:nameRef>showWhen</a:nameRef>
+                    <a:id>3</a:id>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="xsd:string"/>
+                    <a:nameRef>marginBelow</a:nameRef>
+                    <a:id>4</a:id>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true" xsi:type="xsd:boolean"/>
+                    <a:nameRef>isSubmit</a:nameRef>
+                    <a:id>5</a:id>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="xsd:string"/>
+                    <a:nameRef>align</a:nameRef>
+                    <a:id>6</a:id>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true" xsi:type="xsd:boolean"/>
+                    <a:nameRef>showActionClose</a:nameRef>
+                    <a:id>7</a:id>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="a:Expression">null</a:value>
+                    <a:nameRef>additionalActions</a:nameRef>
+                    <a:id>8</a:id>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="xsd:string">Template</a:value>
+                    <a:nameRef>label</a:nameRef>
+                    <a:id>9</a:id>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true" xsi:type="xsd:boolean"/>
+                    <a:nameRef>showActionRestore</a:nameRef>
+                    <a:id>10</a:id>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true" xsi:type="xsd:boolean"/>
+                    <a:nameRef>showActionMaximize</a:nameRef>
+                    <a:id>11</a:id>
+                </a:ruleInputTestConfigs>
+                <a:assertions xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true"/>
+            </el>
+        </value>
+    </typedValue>
+    <history>
+        <historyInfo versionUuid="_a-0000eb6e-4e4d-8000-af2c-01ef9001ef90_71337"/>
+        <historyInfo versionUuid="_a-0000ebb0-f8a9-8000-af32-01ef9001ef90_86086"/>
+        <historyInfo versionUuid="_a-0000ec7b-6360-8000-af4a-01ef9001ef90_135568"/>
+        <historyInfo versionUuid="_a-0000ee9a-01f5-8000-af67-01ef9001ef90_200898"/>
+    </history>
+</contentHaul>

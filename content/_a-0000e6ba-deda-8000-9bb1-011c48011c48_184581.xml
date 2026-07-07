@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<contentHaul xmlns:a="http://www.appian.com/ae/types/2009">
+    <versionUuid>_a-0000eaa5-7858-8000-3c9d-01ef9001ef90_60297</versionUuid>
+    <rule>
+        <name>IEM_ICO_VALIDATE_Username</name>
+        <uuid>_a-0000e6ba-deda-8000-9bb1-011c48011c48_184581</uuid>
+        <description>Validates whether or not a username is valid per Appian platform restrictions</description>
+        <parentUuid>_a-0000e2c3-93ef-8000-9ba2-011c48011c48_2351149</parentUuid>
+        <visibility>
+            <advertise>false</advertise>
+            <hierarchy>true</hierarchy>
+            <indexable>true</indexable>
+            <quota>false</quota>
+            <searchable>true</searchable>
+            <system>false</system>
+            <unlogged>false</unlogged>
+        </visibility>
+        <definition>if(
+  or(
+    a!isNullOrEmpty(ri!value),
+    #"_a-0000e6ba-deda-8000-9bb1-011c48011c48_184587"(value: ri!value)
+  ),
+  "",
+  "Please enter a valid username. Usernames can only contain letters, numbers, and the following special characters: @ ' . _ and -"
+)</definition>
+        <namedTypedValue>
+            <name>value</name>
+            <type>
+                <name>string</name>
+                <namespace>http://www.w3.org/2001/XMLSchema</namespace>
+            </type>
+            <value/>
+        </namedTypedValue>
+        <preferredEditor>legacy</preferredEditor>
+        <offlineEnabled>false</offlineEnabled>
+    </rule>
+    <roleMap public="true">
+        <role inherit="true" allowForAll="false" name="readers">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="true" allowForAll="false" name="authors">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="true" allowForAll="false" name="administrators">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyReaders">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyAuthors">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyAdministrators">
+            <users/>
+            <groups/>
+        </role>
+    </roleMap>
+    <history>
+        <historyInfo versionUuid="_a-0000e6ba-deda-8000-9bb1-011c48011c48_184642"/>
+        <historyInfo versionUuid="_a-0000e74e-922f-8000-9bc7-011c48011c48_306679"/>
+        <historyInfo versionUuid="_a-0000eaa5-7858-8000-3c9d-01ef9001ef90_60297"/>
+    </history>
+</contentHaul>
