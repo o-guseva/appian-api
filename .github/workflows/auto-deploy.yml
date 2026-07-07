@@ -88,10 +88,15 @@ jobs:
                ".github/*" \
                "README.md"
           echo "PACKAGE_FILE=appian-package.zip" >> $GITHUB_ENV
+          PROPERTIES_FILES=$(find . -maxdepth 1 -name "*.properties" | head -n 1 | sed 's|^\./||')
+          SQL_FILE=$(find . -maxdepth 1 -name "*.sql" | head -n 1 | sed 's|^\./||')
+          echo "ALL PROPERTIES FILES:"
+          find . -maxdepth 1 -name "*.properties"
+          echo "ALL SQL FILES:"
+          find . -maxdepth 1 -name "*.sql"
           echo ""
           echo "Package Created:"
           ls -lh appian-package.zip
-          
           
       - name: Upload Deployment Package
         env:
