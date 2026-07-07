@@ -151,7 +151,7 @@ jobs:
           echo "============= JSON BODY =================="
           echo "$JSON_BODY"
           
-          RESPONSE=$(curl -s -X POST "$APP_URL/suite/deployment-management/v2/deployments" \
+          RESPONSE=$(curl -v -X POST "$APP_URL/suite/deployment-management/v2/deployments" \
             -H "Appian-API-Key: $APPIAN_API_KEY" \
             -F "json=$JSON_BODY;type=application/json" \
             -F "file=@$PACKAGE_FILE" \
