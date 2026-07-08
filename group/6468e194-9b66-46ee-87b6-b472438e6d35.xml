@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<groupHaul xmlns:a="http://www.appian.com/ae/types/2009">
+    <versionUuid>_e-0000ef3e-d5ce-8000-af66-011e94011e94_2273</versionUuid>
+    <group>
+        <name>IEM ICO | Administrate Module</name>
+        <securityMap>SECURITYMAP_TEAM</securityMap>
+        <uuid>6468e194-9b66-46ee-87b6-b472438e6d35</uuid>
+        <groupTypeUuid>SYSTEM_GROUP_TYPE_CUSTOM</groupTypeUuid>
+        <description>Group that all IEM Core Objects activity is secured to</description>
+        <delegatedCreation>false</delegatedCreation>
+        <memberPolicy>MEMBERPOLICY_CLOSED</memberPolicy>
+        <viewingPolicy>VIEWINGPOLICY_HIGH</viewingPolicy>
+        <attributes/>
+    </group>
+    <members>
+        <users/>
+        <groups/>
+    </members>
+    <admins>
+        <users/>
+        <groups>
+            <groupUuid>6468e194-9b66-46ee-87b6-b472438e6d35</groupUuid>
+        </groups>
+    </admins>
+    <ruleSet>
+        <expressions>
+            <entityTypeName>u</entityTypeName>
+            <conditions>
+                <attributeName>userTypeName</attributeName>
+                <operatorId>1</operatorId>
+                <value>Administrator</value>
+            </conditions>
+        </expressions>
+    </ruleSet>
+    <history>
+        <historyInfo versionUuid="6468e194-9b66-46ee-87b6-b472438e6d35"/>
+        <historyInfo versionUuid="_e-0000ea69-23b6-8000-3c96-011e94011e94_2674"/>
+        <historyInfo versionUuid="_e-0000ec76-2f16-8000-9af9-01075c01075c_359"/>
+        <historyInfo versionUuid="_e-0000ef0f-9abf-8000-af64-011e94011e94_2022"/>
+        <historyInfo versionUuid="_e-0000ef3e-d5ce-8000-af66-011e94011e94_2273"/>
+    </history>
+</groupHaul>
