@@ -62,17 +62,17 @@ jobs:
 
           git diff --name-status ${{ github.event.before }} ${{ github.sha }} | tee diff-report.txt
           echo ""
-          echo "Changed files:"
-          cat diff-report.txt
-          echo ""
           echo "Added:"
-          grep "^Added" diff-report.txt || true
+          git diff --diff-filter=A --name-only ${{ github.event.before }} ${{ github.sha }}
+          #grep "^Added" diff-report.txt || true
           echo ""
           echo "Modified:"
-          grep "^Modified" diff-report.txt || true
+          git diff --diff-filter=M --name-only ${{ github.event.before }} ${{ github.sha }}
+          #grep "^Modified" diff-report.txt || true
           echo ""
           echo "Deleted:"
-          grep "^Deleted" diff-report.txt || true
+          git diff --diff-filter=D --name-only ${{ github.event.before }} ${{ github.sha }}
+          #grep "^Deleted" diff-report.txt || true
           echo ""
           echo "Creating Deployment Package"
           zip -r appian-package.zip \
