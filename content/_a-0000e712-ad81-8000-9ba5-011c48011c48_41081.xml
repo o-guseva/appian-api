@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<contentHaul xmlns:a="http://www.appian.com/ae/types/2009">
+    <versionUuid>_a-0000ee9a-01f5-8000-af67-01ef9001ef90_203533</versionUuid>
+    <interface>
+        <name>IEM_ICO_CMPT_Spacer</name>
+        <uuid>_a-0000e712-ad81-8000-9ba5-011c48011c48_41081</uuid>
+        <description>Blank space</description>
+        <parentUuid>_a-0000e258-a92d-8000-9ba2-011c48011c48_2110934</parentUuid>
+        <visibility>
+            <advertise>false</advertise>
+            <hierarchy>true</hierarchy>
+            <indexable>true</indexable>
+            <quota>false</quota>
+            <searchable>true</searchable>
+            <system>false</system>
+            <unlogged>false</unlogged>
+        </visibility>
+        <definition>#"SYSTEM_SYSRULES_columnsLayout"(marginBelow: "LESS")</definition>
+        <preferredEditor>interface</preferredEditor>
+        <offlineEnabled>true</offlineEnabled>
+        <isCustom>true</isCustom>
+        <customDisplayName>IEM ICO Spacer</customDisplayName>
+    </interface>
+    <roleMap public="true">
+        <role inherit="true" allowForAll="false" name="readers">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="true" allowForAll="false" name="authors">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="true" allowForAll="false" name="administrators">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyReaders">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyAuthors">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyAdministrators">
+            <users/>
+            <groups/>
+        </role>
+    </roleMap>
+    <history>
+        <historyInfo versionUuid="_a-0000e712-ad81-8000-9ba5-011c48011c48_51651"/>
+        <historyInfo versionUuid="_a-0000e712-ad81-8000-9ba5-011c48011c48_59223"/>
+        <historyInfo versionUuid="_a-0000ea69-23b6-8000-3c9b-01ef9001ef90_54862"/>
+        <historyInfo versionUuid="_a-0000ee9a-01f5-8000-af67-01ef9001ef90_203533"/>
+    </history>
+</contentHaul>
