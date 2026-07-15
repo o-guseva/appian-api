@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<contentHaul xmlns:a="http://www.appian.com/ae/types/2009">
+    <versionUuid>_a-0000ea69-23b6-8000-3c9b-01ef9001ef90_54930</versionUuid>
+    <rulesFolder>
+        <name>IEM ICO Constants</name>
+        <uuid>_a-0000e2c3-93ef-8000-9ba2-011c48011c48_2351155</uuid>
+        <description></description>
+        <parentUuid>855b2f0a-c8a4-4daf-919a-109b8ebfbefd</parentUuid>
+        <visibility>
+            <advertise>false</advertise>
+            <hierarchy>true</hierarchy>
+            <indexable>true</indexable>
+            <quota>false</quota>
+            <searchable>true</searchable>
+            <system>false</system>
+            <unlogged>false</unlogged>
+        </visibility>
+    </rulesFolder>
+    <roleMap public="true">
+        <role inherit="true" allowForAll="false" name="readers">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="true" allowForAll="false" name="authors">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="true" allowForAll="false" name="administrators">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyReaders">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyAuthors">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyAdministrators">
+            <users/>
+            <groups/>
+        </role>
+    </roleMap>
+    <history>
+        <historyInfo versionUuid="_a-0000e2c3-93ef-8000-9ba2-011c48011c48_2351159"/>
+        <historyInfo versionUuid="_a-0000ea69-23b6-8000-3c9b-01ef9001ef90_54930"/>
+    </history>
+</contentHaul>
