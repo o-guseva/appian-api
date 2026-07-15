@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<applicationPatches>
+    <applicationPatch>
+        <applicationUuid>66a4f972-534b-4c95-b75f-e7fea2353a9a</applicationUuid>
+        <packageInfo>
+            <url></url>
+        </packageInfo>
+        <patchContents>
+            <item>
+                <type>content</type>
+                <uuids>
+                    <uuid>66fb2eab-3fb5-402e-9dbe-7588abf5f3d2</uuid>
+                    <uuid>_a-0000e2c3-93ef-8000-9ba2-011c48011c48_2376175</uuid>
+                    <uuid>_a-0000e712-ad81-8000-9ba5-011c48011c48_40344</uuid>
+                    <uuid>_a-0000e712-ad81-8000-9ba5-011c48011c48_54709</uuid>
+                    <uuid>_a-0000e777-b878-8000-9bad-011c48011c48_47417</uuid>
+                    <uuid>_a-0000e781-fc21-8000-9bb3-011c48011c48_63430</uuid>
+                    <uuid>_a-0000e798-6561-8000-9bb5-011c48011c48_92367</uuid>
+                    <uuid>_a-0000e92e-5d05-8000-9be3-011c48011c48_589166</uuid>
+                    <uuid>_a-0000eaea-80ef-8000-3ca2-01ef9001ef90_106619</uuid>
+                    <uuid>_a-0000eb26-ab8d-8000-af26-01ef9001ef90_13328</uuid>
+                    <uuid>_a-0000eb49-2433-8000-af2a-01ef9001ef90_34633</uuid>
+                    <uuid>_a-0000ec82-dfa0-8000-cdfc-01ef9001ef90_210155</uuid>
+                    <uuid>_a-0000ee9a-01f5-8000-af67-01ef9001ef90_269263</uuid>
+                    <uuid>_a-0000ef0f-9abf-8000-af69-01ef9001ef90_318937</uuid>
+                    <uuid>_a-0000efa8-4346-8000-3cdd-01ef9001ef90_250535</uuid>
+                    <uuid>_a-0000efa8-4346-8000-3cdd-01ef9001ef90_250563</uuid>
+                </uuids>
+            </item>
+            <item>
+                <type>group</type>
+                <uuids>
+                    <uuid>_e-0000efa8-4346-8000-3cd8-011e94011e94_4115</uuid>
+                </uuids>
+            </item>
+            <item>
+                <type>recordType</type>
+                <uuids>
+                    <uuid>347dfce2-5c7f-49a3-b55a-fd7c92a61d6b</uuid>
+                    <uuid>3db1c15c-c8b5-437a-84b9-f7f87f0eb44b</uuid>
+                    <uuid>765820b0-4dde-40e3-9604-06a6096aa4ce</uuid>
+                    <uuid>9bff5542-7902-4d4d-a723-579d7add597d</uuid>
+                </uuids>
+            </item>
+        </patchContents>
+    </applicationPatch>
+</applicationPatches>
