@@ -63,18 +63,21 @@ jobs:
           git diff --name-status ${{ github.event.before }} ${{ github.sha }} | tee diff-report.txt
           echo ""
           echo "Added:"
-          git diff --diff-filter=A --name-only ${{ github.event.before }} ${{ github.sha }}
+          git diff --diff-filter=Added --name-only ${{ github.event.before }} ${{ github.sha }}
           #grep "^Added" diff-report.txt || true
           echo ""
           echo "Modified:"
-          git diff --diff-filter=M --name-only ${{ github.event.before }} ${{ github.sha }}
+          git diff --diff-filter=Modified --name-only ${{ github.event.before }} ${{ github.sha }}
           #grep "^Modified" diff-report.txt || true
           echo ""
           echo "Deleted:"
-          git diff --diff-filter=D --name-only ${{ github.event.before }} ${{ github.sha }}
+          git diff --diff-filter=Deleted --name-only ${{ github.event.before }} ${{ github.sha }}
           #grep "^Deleted" diff-report.txt || true
           echo ""
           echo "Creating Deployment Package"
+          echo ""
+          echo "Files included in deployment package:"
+          find application content datatype group groupType META-INF processModel processModelFolder recordType -type f | sort
           zip -r appian-package.zip \
             application \
             content \
