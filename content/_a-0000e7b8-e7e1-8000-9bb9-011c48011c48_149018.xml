@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<contentHaul xmlns:a="http://www.appian.com/ae/types/2009">
+    <versionUuid>_a-0000ee60-4b52-8000-af65-01ef9001ef90_188213</versionUuid>
+    <constant>
+        <name>IEM_ICO_OPTIONS_MSG_COMPONENT_STYLES</name>
+        <uuid>_a-0000e7b8-e7e1-8000-9bb9-011c48011c48_149018</uuid>
+        <description>1) INFO - Use for hints &lt;br&gt;
+2) WARN - Use for important notices that might be bad &lt;br&gt;
+3) ERROR - Use for errors and validations &lt;br&gt;
+4) SUCCESS - Use for, well, successes! &lt;br&gt;
+5) NORMAL_HIGHLIGHT - Use for plain notifications &lt;br&gt;
+6) NORMAL - Use for already accessed plain notifications</description>
+        <parentUuid>_a-0000e2c3-93ef-8000-9ba2-011c48011c48_2351155</parentUuid>
+        <visibility>
+            <advertise>false</advertise>
+            <hierarchy>true</hierarchy>
+            <indexable>true</indexable>
+            <quota>false</quota>
+            <searchable>true</searchable>
+            <system>false</system>
+            <unlogged>false</unlogged>
+        </visibility>
+        <typedValue>
+            <type>
+                <name>Text?list</name>
+                <namespace>http://www.appian.com/ae/types/2009</namespace>
+            </type>
+            <value>
+                <el>INFO</el>
+                <el>WARN</el>
+                <el>ERROR</el>
+                <el>SUCCESS</el>
+                <el>NORMAL_HIGHLIGHT</el>
+                <el>NORMAL</el>
+            </value>
+        </typedValue>
+        <isEnvironmentSpecific>false</isEnvironmentSpecific>
+    </constant>
+    <roleMap public="true">
+        <role inherit="true" allowForAll="false" name="readers">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="true" allowForAll="false" name="authors">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="true" allowForAll="false" name="administrators">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyReaders">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyAuthors">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyAdministrators">
+            <users/>
+            <groups/>
+        </role>
+    </roleMap>
+    <history>
+        <historyInfo versionUuid="_a-0000e7b8-e7e1-8000-9bb9-011c48011c48_149029"/>
+        <historyInfo versionUuid="_a-0000eb47-e7d0-8000-3ca8-01ef9001ef90_129309"/>
+        <historyInfo versionUuid="_a-0000ee60-4b52-8000-af65-01ef9001ef90_188213"/>
+    </history>
+</contentHaul>

@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<contentHaul xmlns:a="http://www.appian.com/ae/types/2009">
+    <versionUuid>_a-0000ee9a-01f5-8000-af67-01ef9001ef90_192403</versionUuid>
+    <interface>
+        <name>IEM_ICO_LAYOUT_CenteredLayout</name>
+        <uuid>_a-0000e798-6561-8000-9bb5-011c48011c48_95195</uuid>
+        <description>Automatically center the interface objects</description>
+        <parentUuid>_a-0000e258-a92d-8000-9ba2-011c48011c48_2110934</parentUuid>
+        <visibility>
+            <advertise>false</advertise>
+            <hierarchy>true</hierarchy>
+            <indexable>true</indexable>
+            <quota>false</quota>
+            <searchable>true</searchable>
+            <system>false</system>
+            <unlogged>false</unlogged>
+        </visibility>
+        <definition>#"SYSTEM_SYSRULES_columnsLayout"(
+  alignVertical: ri!alignVertical,
+  marginBelow: ri!marginBelow,
+  stackWhen: a!defaultValue(value: ri!stackWhen, default: {"PHONE", "TABLET_PORTRAIT", "TABLET_LANDSCAPE"}),
+  spacing: ri!spacing,
+  columns: {
+    #"SYSTEM_SYSRULES_columnLayout"(),
+    #"SYSTEM_SYSRULES_columnLayout"(
+      contents: ri!contents,
+      width: a!defaultValue(value: ri!width, default: "WIDE_PLUS"),
+    ),
+    #"SYSTEM_SYSRULES_columnLayout"()
+  },
+  showWhen: ri!showWhen
+)</definition>
+        <namedTypedValue>
+            <name>contents</name>
+            <type>
+                <name>Variant</name>
+                <namespace>http://www.appian.com/ae/types/2009</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>alignVertical</name>
+            <type>
+                <name>string</name>
+                <namespace>http://www.w3.org/2001/XMLSchema</namespace>
+            </type>
+            <value/>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>marginBelow</name>
+            <type>
+                <name>string</name>
+                <namespace>http://www.w3.org/2001/XMLSchema</namespace>
+            </type>
+            <value/>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>stackWhen</name>
+            <type>
+                <name>string</name>
+                <namespace>http://www.w3.org/2001/XMLSchema</namespace>
+            </type>
+            <value/>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>spacing</name>
+            <type>
+                <name>string</name>
+                <namespace>http://www.w3.org/2001/XMLSchema</namespace>
+            </type>
+            <value/>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>width</name>
+            <type>
+                <name>string</name>
+                <namespace>http://www.w3.org/2001/XMLSchema</namespace>
+            </type>
+            <value/>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>showWhen</name>
+            <type>
+                <name>boolean</name>
+                <namespace>http://www.w3.org/2001/XMLSchema</namespace>
+            </type>
+        </namedTypedValue>
+        <preferredEditor>interface</preferredEditor>
+        <offlineEnabled>true</offlineEnabled>
+        <isCustom>true</isCustom>
+        <customDisplayName>IEM ICO Centered Layout</customDisplayName>
+    </interface>
+    <roleMap public="true">
+        <role inherit="true" allowForAll="false" name="readers">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="true" allowForAll="false" name="authors">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="true" allowForAll="false" name="administrators">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyReaders">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyAuthors">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyAdministrators">
+            <users/>
+            <groups/>
+        </role>
+    </roleMap>
+    <history>
+        <historyInfo versionUuid="_a-0000e798-6561-8000-9bb5-011c48011c48_95241"/>
+        <historyInfo versionUuid="_a-0000e978-3940-8000-9be9-011c48011c48_671520"/>
+        <historyInfo versionUuid="_a-0000ea0b-d6c5-8000-9bfb-011c48011c48_881777"/>
+        <historyInfo versionUuid="_a-0000eaa5-7858-8000-3c9d-01ef9001ef90_57541"/>
+        <historyInfo versionUuid="_a-0000eaea-80ef-8000-3ca2-01ef9001ef90_111275"/>
+        <historyInfo versionUuid="_a-0000ee9a-01f5-8000-af67-01ef9001ef90_192403"/>
+    </history>
+</contentHaul>
