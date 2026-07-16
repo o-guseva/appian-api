@@ -1,0 +1,184 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<contentHaul xmlns:a="http://www.appian.com/ae/types/2009">
+    <versionUuid>_a-0000ee9a-01f5-8000-af67-01ef9001ef90_222442</versionUuid>
+    <rule>
+        <name>IEM_ICO_GET_RefObjectType</name>
+        <uuid>_a-0000eb26-ab8d-8000-af26-01ef9001ef90_13321</uuid>
+        <description></description>
+        <parentUuid>_a-0000e2c3-93ef-8000-9ba2-011c48011c48_2351149</parentUuid>
+        <visibility>
+            <advertise>false</advertise>
+            <hierarchy>true</hierarchy>
+            <indexable>true</indexable>
+            <quota>false</quota>
+            <searchable>true</searchable>
+            <system>false</system>
+            <unlogged>false</unlogged>
+        </visibility>
+        <definition>a!localVariables(
+  /*DEFAULTS*/
+  local!fetchTotalCount: a!defaultValue(value: ri!fetchTotalCount, default: false),
+  local!pagingInfo:
+  a!defaultValue(
+    value: ri!pagingInfo, 
+    default: 
+    #"SYSTEM_SYSRULES_pagingInfo"(
+      startIndex: 1, 
+      batchSize: 1, 
+      sort: 
+      #"SYSTEM_SYSRULES_sortInfo"(
+        field: #"urn:appian:record-field:v1:347dfce2-5c7f-49a3-b55a-fd7c92a61d6b/b3fb1424-bcc4-411a-bc1e-f2162dddde2a", 
+        ascending: true
+      )
+    )
+  ),
+  local!type: #"urn:appian:record-type:v1:347dfce2-5c7f-49a3-b55a-fd7c92a61d6b",
+  /*DON'T ALLOW QUERIES IF NO PRIMARY PARAMETERS / PAGING INFO ARE PASSED*/
+  local!query:
+  if(and(
+      a!isNullOrEmpty(ri!objectTypeId),
+      a!isNullOrEmpty(ri!code),
+      a!isNullOrEmpty(ri!isActive),
+      a!isNullOrEmpty(ri!returnCdt),
+      a!isNullOrEmpty(ri!pagingInfo)
+    ),
+    todatasubset({}, local!pagingInfo),
+    #"SYSTEM_SYSRULES_queryRecordType_v3"(
+      recordType: local!type,
+      fetchTotalCount: local!fetchTotalCount,
+      pagingInfo: local!pagingInfo,
+      fields: 
+      a!defaultValue(
+        value: ri!fields,
+        default: 
+        #"SYSTEM_SYSRULES_selectionFields"(
+          allFieldsFromRecordType: local!type
+        )
+      ),
+      filters: 
+      #"SYSTEM_SYSRULES_queryLogicalExpression"(
+        operator: "AND",
+        ignoreFiltersWithEmptyValues: true,
+        filters: {
+          #"SYSTEM_SYSRULES_queryFilter"(
+            field: #"urn:appian:record-field:v1:347dfce2-5c7f-49a3-b55a-fd7c92a61d6b/fca6729c-f355-42d2-a6b5-2a4f5f40cf90",
+            operator: "in",
+            value: ri!objectTypeId
+          ),
+          #"SYSTEM_SYSRULES_queryFilter"(
+            field: #"urn:appian:record-field:v1:347dfce2-5c7f-49a3-b55a-fd7c92a61d6b/5502552d-41e4-41a7-95b2-25ee1a993d5f", 
+            operator: "in", 
+            value: ri!code
+          ),
+          #"SYSTEM_SYSRULES_queryFilter"(
+            field: #"urn:appian:record-field:v1:347dfce2-5c7f-49a3-b55a-fd7c92a61d6b/b3fb1424-bcc4-411a-bc1e-f2162dddde2a", 
+            operator: "in", 
+            value: lower(ri!lcCode),
+            applyWhen: a!isNotNullOrEmpty(ri!lcCode)
+          ),
+          #"SYSTEM_SYSRULES_queryFilter"(
+            field: #"urn:appian:record-field:v1:347dfce2-5c7f-49a3-b55a-fd7c92a61d6b/2b5b1c2b-311e-45fe-bfc2-daba2c59da56", 
+            operator: "in", 
+            value: a!defaultValue(value: ri!isActive, default: {true})
+          )
+        }
+      )
+    )
+  ),
+  if(ri!returnCdt,
+    local!query.data,
+    local!query
+  )
+)</definition>
+        <namedTypedValue>
+            <name>objectTypeId</name>
+            <type>
+                <name>Integer?list</name>
+                <namespace>http://www.appian.com/ae/types/2009</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>code</name>
+            <type>
+                <name>Text?list</name>
+                <namespace>http://www.appian.com/ae/types/2009</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>lcCode</name>
+            <type>
+                <name>Text?list</name>
+                <namespace>http://www.appian.com/ae/types/2009</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>isActive</name>
+            <type>
+                <name>Boolean?list</name>
+                <namespace>http://www.appian.com/ae/types/2009</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>returnCdt</name>
+            <type>
+                <name>boolean</name>
+                <namespace>http://www.w3.org/2001/XMLSchema</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>pagingInfo</name>
+            <type>
+                <name>PagingInfo</name>
+                <namespace>http://www.appian.com/ae/types/2009</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>fetchTotalCount</name>
+            <type>
+                <name>boolean</name>
+                <namespace>http://www.w3.org/2001/XMLSchema</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>fields</name>
+            <type>
+                <name>Variant</name>
+                <namespace>http://www.appian.com/ae/types/2009</namespace>
+            </type>
+        </namedTypedValue>
+        <preferredEditor>legacy</preferredEditor>
+        <offlineEnabled>false</offlineEnabled>
+    </rule>
+    <roleMap public="true">
+        <role inherit="true" allowForAll="false" name="readers">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="true" allowForAll="false" name="authors">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="true" allowForAll="false" name="administrators">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyReaders">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyAuthors">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyAdministrators">
+            <users/>
+            <groups/>
+        </role>
+    </roleMap>
+    <history>
+        <historyInfo versionUuid="_a-0000eb26-ab8d-8000-af26-01ef9001ef90_13346"/>
+        <historyInfo versionUuid="_a-0000ec28-85bb-8000-af44-01ef9001ef90_91178"/>
+        <historyInfo versionUuid="_a-0000ec9b-212e-8000-9bae-011c48011c48_90316"/>
+        <historyInfo versionUuid="_a-0000ee9a-01f5-8000-af67-01ef9001ef90_222442"/>
+    </history>
+</contentHaul>

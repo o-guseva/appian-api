@@ -1,0 +1,153 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<contentHaul xmlns:a="http://www.appian.com/ae/types/2009">
+    <versionUuid>_a-0000ed1a-a053-8000-3ccd-01ef9001ef90_162770</versionUuid>
+    <rule>
+        <name>IEM_ICO_GET_Process</name>
+        <uuid>_a-0000ec82-dfa0-8000-cdfc-01ef9001ef90_210189</uuid>
+        <description>This will pull back process records by the filters given</description>
+        <parentUuid>_a-0000e2c3-93ef-8000-9ba2-011c48011c48_2351149</parentUuid>
+        <visibility>
+            <advertise>false</advertise>
+            <hierarchy>true</hierarchy>
+            <indexable>true</indexable>
+            <quota>false</quota>
+            <searchable>true</searchable>
+            <system>false</system>
+            <unlogged>false</unlogged>
+        </visibility>
+        <definition>a!localVariables(
+  local!pagingInfo: a!defaultValue(
+    value: ri!pagingInfo,
+    default: #"SYSTEM_SYSRULES_pagingInfo"(
+      startIndex: 1,
+      batchSize: 1,
+      sort: #"SYSTEM_SYSRULES_sortInfo"(
+        field: #"urn:appian:record-field:v1:3db1c15c-c8b5-437a-84b9-f7f87f0eb44b/915033fb-f817-48ce-8611-2fc1375352a4",
+        ascending: true
+      )
+    )
+  ),
+  local!type: #"urn:appian:record-type:v1:3db1c15c-c8b5-437a-84b9-f7f87f0eb44b",
+  /*DON'T ALLOW QUERIES IF NO PRIMARY PARAMETERS / PAGING INFO ARE PASSED*/
+  local!query: 
+  #"SYSTEM_SYSRULES_queryRecordType_v1"(
+    recordType: local!type,
+    fields: ri!fields,
+    pagingInfo: local!pagingInfo,
+    filters: {
+      #"SYSTEM_SYSRULES_queryFilter"(
+        field: #"urn:appian:record-field:v1:3db1c15c-c8b5-437a-84b9-f7f87f0eb44b/915033fb-f817-48ce-8611-2fc1375352a4",
+        operator: "in",
+        value: ri!processId,
+        applyWhen: a!isNotNullOrEmpty(ri!processId)
+      ),
+      #"SYSTEM_SYSRULES_queryFilter"(
+        field: #"urn:appian:record-field:v1:3db1c15c-c8b5-437a-84b9-f7f87f0eb44b/1a4feee5-ba42-4707-bd24-280010450bc9",
+        operator: "in",
+        value: ri!pmId,
+        applyWhen: a!isNotNullOrEmpty(ri!pmId)
+      ),
+      #"SYSTEM_SYSRULES_queryFilter"(
+        field: #"urn:appian:record-field:v1:3db1c15c-c8b5-437a-84b9-f7f87f0eb44b/632b9bc9-d101-49b1-95ce-ab7a404de15e",
+        operator: "in",
+        value: ri!processName,
+        applyWhen: a!isNotNullOrEmpty(ri!processName)
+      ),
+      #"SYSTEM_SYSRULES_queryFilter"(
+        field: #"urn:appian:record-field:v1:3db1c15c-c8b5-437a-84b9-f7f87f0eb44b/015f3be4-3d55-400d-9dd1-ebdd61d709cd",
+        operator: "in",
+        applyWhen: a!isNotNullOrEmpty(ri!uuid)
+      )
+    }
+  ),
+  if(
+    ri!returnCdt,
+    local!query.data,
+    local!query
+  )
+)</definition>
+        <namedTypedValue>
+            <name>processId</name>
+            <type>
+                <name>Integer?list</name>
+                <namespace>http://www.appian.com/ae/types/2009</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>pmId</name>
+            <type>
+                <name>Integer?list</name>
+                <namespace>http://www.appian.com/ae/types/2009</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>processName</name>
+            <type>
+                <name>Text?list</name>
+                <namespace>http://www.appian.com/ae/types/2009</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>uuid</name>
+            <type>
+                <name>Text?list</name>
+                <namespace>http://www.appian.com/ae/types/2009</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>returnCdt</name>
+            <type>
+                <name>boolean</name>
+                <namespace>http://www.w3.org/2001/XMLSchema</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>pagingInfo</name>
+            <type>
+                <name>PagingInfo</name>
+                <namespace>http://www.appian.com/ae/types/2009</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>fields</name>
+            <type>
+                <name>Variant</name>
+                <namespace>http://www.appian.com/ae/types/2009</namespace>
+            </type>
+        </namedTypedValue>
+        <preferredEditor>legacy</preferredEditor>
+        <offlineEnabled>false</offlineEnabled>
+    </rule>
+    <roleMap public="true">
+        <role inherit="true" allowForAll="false" name="readers">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="true" allowForAll="false" name="authors">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="true" allowForAll="false" name="administrators">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyReaders">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyAuthors">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyAdministrators">
+            <users/>
+            <groups/>
+        </role>
+    </roleMap>
+    <history>
+        <historyInfo versionUuid="_a-0000ec82-dfa0-8000-cdfc-01ef9001ef90_210200"/>
+        <historyInfo versionUuid="_a-0000ec82-dfa0-8000-cdfc-01ef9001ef90_213148"/>
+        <historyInfo versionUuid="_a-0000ec9b-212e-8000-9bae-011c48011c48_102741"/>
+        <historyInfo versionUuid="_a-0000ed1a-a053-8000-3ccd-01ef9001ef90_162770"/>
+    </history>
+</contentHaul>
