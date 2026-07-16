@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<contentHaul xmlns:a="http://www.appian.com/ae/types/2009">
+    <versionUuid>_a-0000ee40-68bd-8000-ce10-01ef9001ef90_526234</versionUuid>
+    <interface>
+        <name>IEM_ICO_CMPT_IsActive</name>
+        <uuid>_a-0000ec66-328d-8000-af46-01ef9001ef90_110886</uuid>
+        <description>Icon for displaying if a record is active or inactive</description>
+        <parentUuid>_a-0000e258-a92d-8000-9ba2-011c48011c48_2110934</parentUuid>
+        <visibility>
+            <advertise>false</advertise>
+            <hierarchy>true</hierarchy>
+            <indexable>true</indexable>
+            <quota>false</quota>
+            <searchable>true</searchable>
+            <system>false</system>
+            <unlogged>false</unlogged>
+        </visibility>
+        <definition>#"SYSTEM_SYSRULES_tagField"(
+  label: a!defaultValue(value: ri!label, default: "Status"),
+  labelPosition: a!defaultValue(value: ri!labelPosition, default: "COLLAPSED"),
+  helpTooltip: "Active? Is the user's profile active in Appian",
+  tags: {
+    if(a!isNullOrEmpty(ri!value),
+      #"SYSTEM_SYSRULES_tagItem_v1"(
+        text: "Not Found",
+        backgroundColor: #"_a-0000ec66-328d-8000-af46-01ef9001ef90_112181"
+      ),
+      if(toboolean(a!defaultValue(value: ri!value, default: false)),
+        #"SYSTEM_SYSRULES_tagItem_v1"(
+          text: "Active",
+          backgroundColor: #"_a-0000e978-3940-8000-9be9-011c48011c48_685799"
+        ),
+        #"SYSTEM_SYSRULES_tagItem_v1"(
+          text: "Inactive",
+          backgroundColor: #"_a-0000e9e6-ed32-8000-9bf5-011c48011c48_814336"
+        )
+      )
+    )
+  },
+  size: a!defaultValue(value: ri!size, default: "STANDARD"),
+  align: a!defaultValue(value: ri!align, default: "CENTER")
+)</definition>
+        <namedTypedValue>
+            <name>value</name>
+            <type>
+                <name>boolean</name>
+                <namespace>http://www.w3.org/2001/XMLSchema</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>size</name>
+            <type>
+                <name>string</name>
+                <namespace>http://www.w3.org/2001/XMLSchema</namespace>
+            </type>
+            <value/>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>label</name>
+            <type>
+                <name>string</name>
+                <namespace>http://www.w3.org/2001/XMLSchema</namespace>
+            </type>
+            <value/>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>labelPosition</name>
+            <type>
+                <name>string</name>
+                <namespace>http://www.w3.org/2001/XMLSchema</namespace>
+            </type>
+            <value/>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>align</name>
+            <type>
+                <name>string</name>
+                <namespace>http://www.w3.org/2001/XMLSchema</namespace>
+            </type>
+            <value/>
+        </namedTypedValue>
+        <preferredEditor>interface</preferredEditor>
+        <offlineEnabled>true</offlineEnabled>
+        <isCustom>true</isCustom>
+        <customDisplayName>Tag (Is Active)</customDisplayName>
+    </interface>
+    <roleMap public="true">
+        <role inherit="true" allowForAll="false" name="readers">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="true" allowForAll="false" name="authors">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="true" allowForAll="false" name="administrators">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyReaders">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyAuthors">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyAdministrators">
+            <users/>
+            <groups/>
+        </role>
+    </roleMap>
+    <history>
+        <historyInfo versionUuid="_a-0000ec66-328d-8000-af46-01ef9001ef90_113445"/>
+        <historyInfo versionUuid="_a-0000ee40-68bd-8000-ce10-01ef9001ef90_526234"/>
+    </history>
+</contentHaul>

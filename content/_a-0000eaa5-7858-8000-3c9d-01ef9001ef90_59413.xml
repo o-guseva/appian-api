@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<contentHaul xmlns:a="http://www.appian.com/ae/types/2009">
+    <versionUuid>_a-0000eaa5-7858-8000-3c9d-01ef9001ef90_59533</versionUuid>
+    <rule>
+        <name>IEM_ICO_GENERATE_RecordFilterListOptions</name>
+        <uuid>_a-0000eaa5-7858-8000-3c9d-01ef9001ef90_59413</uuid>
+        <description>Generates a list of Record Filter List Options given a list</description>
+        <parentUuid>_a-0000e2c3-93ef-8000-9ba2-011c48011c48_2351149</parentUuid>
+        <visibility>
+            <advertise>false</advertise>
+            <hierarchy>true</hierarchy>
+            <indexable>true</indexable>
+            <quota>false</quota>
+            <searchable>true</searchable>
+            <system>false</system>
+            <unlogged>false</unlogged>
+        </visibility>
+        <definition>#"SYSTEM_SYSRULES_forEach"(
+  items: ri!keyValue,
+  expression: 
+  #"SYSTEM_SYSRULES_recordFilterListOption"(
+    id: fv!index,
+    name: fv!item.key,
+    filter: 
+    #"SYSTEM_SYSRULES_queryFilter"(
+      field: ri!field,
+      operator: "=",
+      value: fv!item.value
+    ),
+    dataCount: null
+  )
+)</definition>
+        <namedTypedValue>
+            <name>keyValue</name>
+            <description>Key will be label, value will be filtered value</description>
+            <type>
+                <name>IEM_ICO_UTY_KeyValue?list</name>
+                <namespace>urn:com:appian:types:IEM_ICO</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>field</name>
+            <type>
+                <name>Variant</name>
+                <namespace>http://www.appian.com/ae/types/2009</namespace>
+            </type>
+        </namedTypedValue>
+        <preferredEditor>legacy</preferredEditor>
+        <offlineEnabled>false</offlineEnabled>
+    </rule>
+    <roleMap public="true">
+        <role inherit="true" allowForAll="false" name="readers">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="true" allowForAll="false" name="authors">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="true" allowForAll="false" name="administrators">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyReaders">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyAuthors">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyAdministrators">
+            <users/>
+            <groups/>
+        </role>
+    </roleMap>
+    <history>
+        <historyInfo versionUuid="_a-0000eaa5-7858-8000-3c9d-01ef9001ef90_59533"/>
+    </history>
+</contentHaul>
