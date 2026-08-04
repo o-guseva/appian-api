@@ -41,7 +41,7 @@ jobs:
           git fetch origin --prune
           echo "Cherry-picking commit: $COMMIT_SHA"
           git config user.name "github-actions[bot]"
-          git config.user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git cherry-pick "$COMMIT_SHA"
           echo "AFTER_SHA=$(git rev-parse HEAD)" >> "GITHUB_ENV"
           echo "Cherry-pick completed successfully"
