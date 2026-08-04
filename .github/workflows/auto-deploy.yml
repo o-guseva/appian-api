@@ -85,21 +85,23 @@ jobs:
         shell: bash
         run: |
           echo "================================"
-          echo "Comparing current commit with previous...."
+          echo "Comparing commits:"
+          echo: "Before: $BEFORE_SHA"
+          echo: "After: $AFTER_SHA"
           echo "================================"
 
-          git diff --name-status ${{ github.event.before }} ${{ github.sha }} | tee diff-report.txt
+          git diff --name-status "$BEFORE_SHA" "$AFTER_SHA" | tee diff-report.txt
           echo ""
           echo "Added:"
-          git diff --diff-filter=A --name-only ${{ github.event.before }} ${{ github.sha }}
+          git diff --diff-filter=A --name-only "$BEFORE_SHA" "$AFTER_SHA" 
           #grep "^Added" diff-report.txt || true
           echo ""
           echo "Modified:"
-          git diff --diff-filter=M --name-only ${{ github.event.before }} ${{ github.sha }}
+          git diff --diff-filter=M --name-only "$BEFORE_SHA" "$AFTER_SHA" 
           #grep "^Modified" diff-report.txt || true
           echo ""
           echo "Deleted:"
-          git diff --diff-filter=D --name-only ${{ github.event.before }} ${{ github.sha }}
+          git diff --diff-filter=D --name-only "$BEFORE_SHA" "$AFTER_SHA" 
           #grep "^Deleted" diff-report.txt || true
           echo ""
           echo "Creating Deployment Package"
