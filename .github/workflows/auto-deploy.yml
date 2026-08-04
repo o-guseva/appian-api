@@ -2,6 +2,11 @@ name: DEPLOY APPIAN PACKAGES
 
 on: 
   workflow_dispatch:
+    inputs:
+      commit_sha:
+        description: "Commit SHA to cherry-pick"
+        required: false
+        type: string
 
   push:
     branches:
@@ -17,25 +22,48 @@ jobs:
         uses: actions/checkout@v4 
         with:
           fetch-depth: 0
+
+      - name: Set Git Comparison Range
+        shell: bash
+        run: |
+          if [ "${{ github.event_name }}" = "workflow_dispatch" ] && [ -n "${{inputs.commit_sha}}" ]; then
+            echo "BEFORE_SHA=$(git rev-parse HEAD)" >> "$GITHUB_ENV"
+          else
+            echo "BEFORE_SHA=${{ github.event.before }}" >> "$GITHUB_ENV"
+            echo "AFTER_SHA=${{ github.sha }}" >> "$GITHUB_ENV"
+          fi
+      - name: Cherry-pick Selected Commit
+        if: ${{ github.event_name == 'workflow_dispatch' && inputs.commit_sha != '' }}
+        shell: bash
+        run: |
+          COMMIT_SHA="${{ inputs.commit_sha }}"
+          echo "Fetching commit history..."
+          git fetch origin --prune
+          echo "Cherry-picking commit: $COMMIT_SHA"
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git cherry-pick "$COMMIT_SHA"
+          echo "AFTER_SHA=$(git rev-parse HEAD)" >> "GITHUB_ENV"
+          echo "Cherry-pick completed successfully"
       - name: Set Environment Variables 
         run: |
           if [ "${GITHUB_REF_NAME}" = "test" ]; then
-            echo "APP_URL=${{ secrets.TEST_APP_URL }}" >> $GITHUB_ENV
+            echo "APP_URL=${{ vars.CALI_DEV_URL }}" >> $GITHUB_ENV
             echo "APPIAN_API_KEY=${{ secrets.TEST_APPIAN_API_KEY }}" >> $GITHUB_ENV 
-            echo "DB_HOST=${{ secrets.TEST_DB_HOST }}" >> $GITHUB_ENV
-            echo "DB_NAME=${{ secrets.TEST_DB_NAME }}" >> $GITHUB_ENV 
-            echo "DB_PORT=${{ secrets.DB_PORT }}" >> $GITHUB_ENV
-            echo "DB_USER=${{ secrets.TEST_DB_USER }}" >> $GITHUB_ENV
-            echo "DB_PASSWORD=${{ secrets.TEST_DB_PASSWORD }}" >> $GITHUB_ENV
+            echo "DB_HOST=${{ vars.CALI_DEV_DB_HOST }}" >> $GITHUB_ENV
+            echo "DB_NAME=${{ vars.CALI_DEV_DB_NAME }}" >> $GITHUB_ENV 
+            echo "DB_PORT=${{ vars.DB_PORT }}" >> $GITHUB_ENV
+            echo "DB_USER=${{ vars.DB_USER }}" >> $GITHUB_ENV
+            echo "DB_PASSWORD=${{ secrets.DB_PASSWORD }}" >> $GITHUB_ENV
             
           elif [ "${GITHUB_REF_NAME}" = "main" ]; then
-            echo "APP_URL=${{ secrets.PROD_APP_URL }}" >> $GITHUB_ENV
+            echo "APP_URL=${{ vars.CALI_URL }}" >> $GITHUB_ENV
             echo "APPIAN_API_KEY=${{ secrets.PROD_APPIAN_API_KEY }}" >> $GITHUB_ENV
-            echo "DB_HOST=${{ secrets.PROD_DB_HOST }}" >> $GITHUB_ENV
-            echo "DB_NAME=${{ secrets.PROD_DB_NAME }}" >> $GITHUB_ENV 
-            echo "DB_PORT=${{ secrets.DB_PORT }}" >> $GITHUB_ENV
-            echo "DB_USER=${{ secrets.PROD_DB_USER }}" >> $GITHUB_ENV
-            echo "DB_PASSWORD=${{ secrets.PROD_DB_PASSWORD }}" >> $GITHUB_ENV
+            echo "DB_HOST=${{ vars.CALI_DB_HOST }}" >> $GITHUB_ENV
+            echo "DB_NAME=${{ vars.CALI_DB_NAME }}" >> $GITHUB_ENV 
+            echo "DB_PORT=${{ vars.DB_PORT }}" >> $GITHUB_ENV
+            echo "DB_USER=${{ vars.DB_USER }}" >> $GITHUB_ENV
+            echo "DB_PASSWORD=${{ secrets.DB_PASSWORD }}" >> $GITHUB_ENV
           else
             echo "Unsupported branch"
             exit 1
@@ -57,21 +85,23 @@ jobs:
         shell: bash
         run: |
           echo "================================"
-          echo "Comparing current commit with previous...."
+          echo "Comparing commits:"
+          echo "Before: $BEFORE_SHA"
+          echo "After: $AFTER_SHA"
           echo "================================"
 
-          git diff --name-status ${{ github.event.before }} ${{ github.sha }} | tee diff-report.txt
+          git diff --name-status "$BEFORE_SHA" "$AFTER_SHA" | tee diff-report.txt
           echo ""
           echo "Added:"
-          git diff --diff-filter=A --name-only ${{ github.event.before }} ${{ github.sha }}
+          git diff --diff-filter=A --name-only "$BEFORE_SHA" "$AFTER_SHA" 
           #grep "^Added" diff-report.txt || true
           echo ""
           echo "Modified:"
-          git diff --diff-filter=M --name-only ${{ github.event.before }} ${{ github.sha }}
+          git diff --diff-filter=M --name-only "$BEFORE_SHA" "$AFTER_SHA" 
           #grep "^Modified" diff-report.txt || true
           echo ""
           echo "Deleted:"
-          git diff --diff-filter=D --name-only ${{ github.event.before }} ${{ github.sha }}
+          git diff --diff-filter=D --name-only "$BEFORE_SHA" "$AFTER_SHA" 
           #grep "^Deleted" diff-report.txt || true
           echo ""
           echo "Creating Deployment Package"
