@@ -86,8 +86,8 @@ jobs:
         run: |
           echo "================================"
           echo "Comparing commits:"
-          echo: "Before: $BEFORE_SHA"
-          echo: "After: $AFTER_SHA"
+          echo "Before: $BEFORE_SHA"
+          echo "After: $AFTER_SHA"
           echo "================================"
 
           git diff --name-status "$BEFORE_SHA" "$AFTER_SHA" | tee diff-report.txt
