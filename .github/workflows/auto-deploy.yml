@@ -22,29 +22,38 @@ jobs:
         uses: actions/checkout@v4 
         with:
           fetch-depth: 0
-
-      - name: Set Git Comparison Range
+      - name: Pepare Cherry-pick or Revert
+        if: ${{ github.event_name == 'workflow_dispatch' }}
         shell: bash
         run: |
-          if [ "${{ github.event_name }}" = "workflow_dispatch" ] && [ -n "${{inputs.commit_sha}}" ]; then
-            echo "BEFORE_SHA=$(git rev-parse HEAD)" >> "$GITHUB_ENV"
-          else
-            echo "BEFORE_SHA=${{ github.event.before }}" >> "$GITHUB_ENV"
-            echo "AFTER_SHA=${{ github.sha }}" >> "$GITHUB_ENV"
-          fi
-      - name: Cherry-pick Selected Commit
-        if: ${{ github.event_name == 'workflow_dispatch' && inputs.commit_sha != '' }}
-        shell: bash
-        run: |
-          COMMIT_SHA="${{ inputs.commit_sha }}"
-          echo "Fetching commit history..."
-          git fetch origin --prune
-          echo "Cherry-picking commit: $COMMIT_SHA"
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git cherry-pick "$COMMIT_SHA"
-          echo "AFTER_SHA=$(git rev-parse HEAD)" >> "$GITHUB_ENV"
-          echo "Cherry-pick completed successfully"
+          git fetch origin --prune
+          BEFORE_SHA=$(git rev-parse HEAD)
+          echo "BEFORE_SHA=$BEFORE_SHA" >> "$GITHUB_ENV"
+          COMMIT_SHA="${{ inputs.commit_sha }}"
+          if [ -n "$COMMIT_SHA" ]; then
+            echo "Mode: CHERRY-PICK"
+            echo "APPLYING SELECTED COMMIT: $COMMIT_SHA"
+            git cherry-pick "$COMMIT_SHA"
+          else
+            echo "Mode: REVERT LAST COMMIT"
+            LAST_COMMIT=$(git rev-parse HEAD)
+            echo "Reverting latest commit: $LAST_COMMIT"
+            PARENT_COUNT=$(git rev-list --count "$LAST_COMMIT^@")
+            if [ "$PARENT_COUNT" -gt 1 ]; then
+              echo "Latest commit is a merge commit"
+              git revert -m 1 --no-edit "$LAST_COMMIT"
+            else
+              git revert --no-edit "$LAST_COMMIT"
+            fi
+          fi
+          AFTER_SHA=$(git rev-parse HEAD)
+          echo "AFTER_SHA=$AFTER_SHA" >> "$GITHUB_ENV"
+          echo "Before SHA: $BEFORE_SHA"
+          echo "After SHA: $AFTER_SHA"
+          
+      
       - name: Set Environment Variables 
         run: |
           if [ "${GITHUB_REF_NAME}" = "test" ]; then
