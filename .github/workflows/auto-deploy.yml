@@ -1,5 +1,6 @@
 name: DEPLOY APPIAN PACKAGES
-
+permissions:
+  contents: write
 on: 
   workflow_dispatch:
     inputs:
@@ -47,6 +48,8 @@ jobs:
             else
               git revert --no-edit "$LAST_COMMIT"
             fi
+            echo "Pushing revert commit to branch: ${GITHUB_REF_NAME}"
+            git push origin HEAD:${GITHUB_REF_NAME}
           fi
           AFTER_SHA=$(git rev-parse HEAD)
           echo "AFTER_SHA=$AFTER_SHA" >> "$GITHUB_ENV"
