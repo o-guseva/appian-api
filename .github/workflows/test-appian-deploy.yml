@@ -5,7 +5,10 @@ permissions:
 on: 
   push:
     branches:
-      - test 
+      - test
+    paths-ignore:
+      - '.github/*'
+      - 'README.md'
   
 jobs:
   deploy-appian:
