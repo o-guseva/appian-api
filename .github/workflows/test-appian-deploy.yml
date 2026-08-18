@@ -191,7 +191,7 @@ jobs:
           HTTP_CODE=$(curl -sS -o /tmp/deploy-response.txt -w "%{http_code}" \
             -X POST \
             "$APP_URL/suite/deploymnet-management/v2/deployments" \
-            -H "Appian-API-Key: $APPIAN_API_KEY \
+            -H "Appian-API-Key: $APPIAN_API_KEY" \
             -H "Action-Type: import" \
             -F "json=$JSON_BODY;type=application/json" \
             -F "file=@$PACKAGE_FILE")
