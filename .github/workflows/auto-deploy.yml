@@ -9,8 +9,8 @@ on:
         required: false
         type: string
 
-  push:
-    branches:
+  #push:
+   # branches:
     #  - test
     #  - main
       
