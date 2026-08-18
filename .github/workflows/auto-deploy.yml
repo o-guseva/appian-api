@@ -11,8 +11,8 @@ on:
 
   push:
     branches:
-      - test
-      - main
+    #  - test
+    #  - main
       
 jobs:
   deploy-appian:
