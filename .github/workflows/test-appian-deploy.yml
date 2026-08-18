@@ -1,0 +1,240 @@
+name: DEPLOY APPIAN PACKAGES
+permissions:
+  contents: read
+  
+on: 
+  push:
+    branches:
+      #- test 
+  
+jobs:
+  deploy-appian:
+    runs-on: ubuntu-latest
+
+    steps:
+    # ======================
+    # CHECKOUT
+    # ======================
+      - name: Checkout Code 
+        uses: actions/checkout@v4 
+        with:
+          fetch-depth: 0
+    # ======================
+    # SET ENVIRONMENT VARIABLES
+    # ======================
+      - name: Set Environment Variables 
+        run: |
+          echo "APP_URL=${{ vars.CALI_DEV_URL }}" >> $GITHUB_ENV
+          echo "APPIAN_API_KEY=${{ secrets.TEST_APPIAN_API_KEY }}" >> $GITHUB_ENV 
+          echo "DB_HOST=${{ vars.CALI_DEV_DB_HOST }}" >> $GITHUB_ENV
+          echo "DB_NAME=${{ vars.CALI_DEV_DB_NAME }}" >> $GITHUB_ENV 
+          echo "DB_PORT=${{ vars.DB_PORT }}" >> $GITHUB_ENV
+          echo "DB_USER=${{ vars.DB_USER }}" >> $GITHUB_ENV
+          echo "DB_PASSWORD=${{ secrets.DB_PASSWORD }}" >> $GITHUB_ENV
+    # ======================
+    # SHOW TARGET
+    # ======================
+      - name: Show Deployment Target
+        shell: bash
+        run: |
+          echo "======================"
+          echo "Branch: $GITHUB_REF_NAME"
+          echo "Environment: CALI_DEV"
+          echo "APP_URL=$APP_URL"
+          echo "======================"
+    # ======================
+    # VALIDATE VARIABLES / SECRETS
+    # ======================
+      - name: Validate required Variables background
+        shell: bash
+        run: |
+          echo "Checking required configuration..."
+          if [ -z "$APP_URL" ]; then
+            echo "ERROR: CALI_DEV_URL is empty"
+            exit 1
+          fi
+          if [ -z "$APPIAN_API_KEY" ]; then
+            echo "ERROR: CALI_DEV_APPIAN_API_KEY is empty"
+            exit 1
+          fi
+          if [ -z "$DB_HOST" ]; then
+            echo "ERROR: CALI_DEV_DB_HOST is empty"
+            exit 1
+          fi
+          if [ -z "$DB_NAME" ]; then
+            echo "ERROR: CALI_DEV_DB_NAME is empty"
+            exit 1
+          fi
+          echo "Required variables are present"
+    # ======================
+    # TEST HTTPS ACCESS
+    # ======================
+      - name: Test CALI-DEV HTTPS Access
+        shell: bash
+        run: |
+          echo "======================"
+          echo "Testing connectivity to CALI-DEV.IEM-DIGITAL.COM"
+          echo "Target: $APP_URL"
+          echo "======================"
+
+          HTTP_CODE=$(curl -sS -L -o /dev/null -w "%{http_code}" \
+            "$APP_URL"
+          )
+          echo "HTTP status: $HTTP_CODE"
+          if [ "$HTTP_CODE" = "000" ]; then
+            echo "ERROR: Cannot reach AFWA-DEV"
+            exit 1
+          fi 
+          echo "AFWA-DEV is reachable"
+    # ======================
+    # TEST APPIAN DEPLOYMENT API
+    # NO PACKAGE FILE YET
+    # ======================
+      - name: Test Appian API Authentication
+        shell: bash
+        run: |
+          echo "======================"
+          echo "Testing Appian API Authentication"
+          echo "======================"
+          JSON_BODY=$(cat <<EOF
+          {
+            "name": "GitHub API Test",
+            "description": "Testing deployment API connectivity without package files"
+          }
+          EOF
+          )
+          echo "JSON_BODY:"
+          echo "$JSON_BODY"
+          echo ""
+          
+          HTTP_CODE=$(curl -sS -o /tmp/apian-response.txt -w "%{http_code}" \
+            -X POST "$APP_URL/suite/deployment-management/v2/deployments" \
+            -H "Appian-API-Key: $APPIAN_API_KEY" \
+            -H "Action-Type: import" \
+            -F "json=$JSON_BODY;type=application/json"
+          )
+          echo ""
+          echo "======================"
+          echo "APPIAN RESPONSE"
+          echo "======================"
+          echo "API HTTP status: $HTTP_CODE"
+          echo ""
+          if [ -f /tmp/appian-response.txt ]; then
+            cat /tmp/appian-response.txt
+          else
+            echo "No response body returned"
+          fi
+          echo ""
+          echo "======================"
+          if [ "$HTTP_CODE" = "401" ]; then 
+            echo "ERROR: Appian API Authentication failed - HTTP 401"
+            exit 1
+          fi
+          if [ "$HTTP_CODE" = "403" ]; then
+            echo "ERROR: API key is recognized, but access is forbiden - HTTP 403"
+            exit 1
+          fi
+          if [ "$HTTP_CODE" = "000" ]; then
+            echo "ERROR: Could not connect to Appian Deployment API"
+            exit 1
+          fi
+          echo "Appian API endpoint responded"
+    # ======================
+    # CHECK FOR APPIAN PACKAGES
+    # ======================
+      - name: Check for Appian packages
+        shell: bash
+        run: |
+          PACKAGE_DIRS=(
+            application \
+            content \
+            datatype \
+            group \
+            groupType \
+            META-INF \
+            processModel \
+            processModelFolder \
+            recordType \
+            patches \
+          )
+          EXISTING_DIRS=()
+          for dir in "${PACKAGE_DIRS[@]}"; do
+            if [ -e "$dir" ]; then
+              EXISTING_DIRS+=("$dir")
+            fi
+          done
+          if [ ${#EXISTING_DIRS[@]} -eq 0 ]; then
+            echo "No Appian package content found"
+            echo "PACKAGE_EXISTS=false" >> "$GITHUB_ENV"
+          else
+            echo "Appian package content found"
+            zip -r appian-package.zip "${EXISTING_DIRS[@]}"
+            echo "PACKAGE_FILE=appian-package.zip" >> "$GITHUB_ENV"
+            echo "PACKAGE_EXISTS=true" >> "$GITHUB_ENV"
+            ls -lh appian-package.zip
+          fi
+    # ======================
+    # DEPLOY APPIAN PACKAGE
+    # ======================
+      - name: Deploy Appian Package
+        if: ${{ env.PACKAGE_EXISTS == 'true' }}
+        shell: bash
+        run: |
+          echo "DEPLOYING APPIAN PACKAGE"
+          JSON_BODY=$(cat <<EOF
+          {
+            "name": "GitHub Deployment",
+            "packageFileName": "$PACKAGE_FILE" 
+          }
+          EOF
+          )
+          HTTP_CODE=$(curl -sS -o /tmp/deploy-response.txt -w "%{http_code}" \
+            -X POST \
+            "$APP_URL/suite/deploymnet-management/v2/deployments" \
+            -H "Appian-API-Key: $APPIAN_API_KEY \
+            -H "Action-Type: import" \
+            -F "json=$JSON_BODY;type=application/json" \
+            -F "file=@$PACKAGE_FILE")
+          echo "HTTP STATUS: $HTTP_CODE"
+          if [ -s /tmp/deploy-response.txt ]; then 
+            cat /tmp/deploy-response.txt
+          fi
+          if [ "$HTTP_CODE" -lt 200 ] || [ "$HTTP_CODE" -ge 300 ]; then 
+            echo "Deployment failed"
+            exit 1
+          fi
+          echo "Deployment request accepted"
+      - name: No Package to Deploy
+        if: ${{ env.PACKAGE_EXISTS != 'true' }}
+        run: |
+          echo "No Appian package found"
+          echo "Deployment Skipped"
+    # ======================
+    # SHOW DB CONFIGIRATION / NO SQL EXEC
+    # ======================          
+      - name: Show DB Configuration
+        shell: bash
+        run: |
+          echo "====================================="
+          echo "DB configuration found"
+          echo "====================================="
+          echo "DB_HOST: $DB_HOST"
+          echo "DB_NAME: $DB_NAME"
+          echo "DB_PORT: $DB_PORT"
+          echo "DB_USER configured: $([ -n "$DB_USER" ] && echo YES || echo NO)"
+          echo "DB_PASSWORD configured: $([ -n "DB_PASSWORD" ] && echo YES || echo NO)"
+    # ======================
+    # COMPLETE
+    # ======================
+      - name: Access Test Complete
+        shell: bash
+        run: |
+          echo "====================================="
+          echo "CALI-DEV ACCESS TEST COMPLETE"
+          echo "====================================="
+          echo "Branch: $GITHUB_REF_NAME"
+          echo "Site: CALI-DEV"
+          echo "URL: $APP_URL"
+          echo "GitHub Actions can reach the environment"
+          
+          
