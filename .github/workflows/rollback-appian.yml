@@ -1,0 +1,57 @@
+name: ROLLBACK APPIAN: test
+
+permissions:
+  contents: write
+
+on: 
+  workflow_dispatch: 
+    inputs:
+      commit_sha:
+        description: "Commit SHA to revert. Leave empty to revert latest commit"
+        required: false
+        type: string
+jobs:
+  rollback-appian:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+        with:
+          ref: test
+          fetch-depth: 0
+
+      - name: Revert Commit
+        shell: bash
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git fetch origin --prune
+          BEFORE_SHA=$(git rev-parse HEAD)
+          echo "BEFORE_SHA=$BEFORE_SHA" >> "$GITHUB_ENV"
+          COMMIT_SHA="${{ inputs.commit_sha }}"
+          if [ -n "$COMMIT_SHA" ]; then
+            echo "Mode: REVERT SELECTED COMMIT"
+            TARGET_COMMIT=$COMMIT_SHA
+          else
+            echo "Mode: REVERT LAST COMMIT"
+            TARGET_COMMIT=$(git rev-parse HEAD)
+          fi
+          echo "Revrting commit: $TARGET_COMMIT"
+          PARENT_COUNT=$(git rev-list --count "$TARGET_COMMIT^@")
+          if [ "$PARENT_COUNT" -gt 1 ]; then
+            echo "Commit is a merge commit"
+            git revert -m 1 --no-edit "$TARGET_COMMIT"
+          else
+            echo "Commit is a regular commit"
+            git revert --no-edit "$TARGET_COMMIT"
+          fi
+          AFTER_SHA=$(git rev-parse HEAD)
+          echo "AFTER_SHA=$AFTER_SHA" >> "$GITHUB_ENV"
+          echo "Before SHA: $BEFORE_SHA"
+          echo "After SHA: $AFTER_SHA"
+
+          git push origin HEAD:test
+
+
+
+          
